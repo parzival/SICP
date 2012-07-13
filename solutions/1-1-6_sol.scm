@@ -82,16 +82,16 @@
                        y))
 
 ;Then he evaluates the expression
-;(test 0 (p))
+(test 0 (p))
 
 ; Applicative-order:
 
 ; (test 0 (p))       ; substitute the body of the procedure =>
-; (if (= x 0) 0 y)   ; with x = 0, y = (p) =>
-; (if (= 0 0) 0 (p)) ; evaluate each argument =>
-; (if true 0 (p))    ; keep evaluating to a primitive => 
-; (if true 0 (p))    ; and again =>
-; (if true 0 (p))    ; and again =>
+; (if (= x 0) 0 y)   ; and evaluate each argument 
+;; x=>0 y=>(p)         
+;;  0, (p)=>(p)       ; keep evaluating to a primitive  
+;;  0, (p)=>(p)       ; and again 
+;;  0, (p)=>(p)       ; and again 
 ; ... ad infinitum
 
 
