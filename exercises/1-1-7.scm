@@ -39,9 +39,9 @@
 ; (sqrt) is the built-in procedure
 
 ; Small numbers 
-(sqrt-old 0.003)
-(sqrt-new 0.003)
-(sqrt 0.003)
+(sqrt-old 3)
+(sqrt-new 3)
+(sqrt 3)
 (newline)
 (sqrt-old 0.00101)
 (sqrt-new 0.00101)
@@ -78,13 +78,13 @@
 
 ; Most answers will not be exact
 ; since these are floating-point values
-(<?cbrt?> 8)   ; 2
-(<?cbrt?> 20.08) ; 2.7180320...
-(<?cbrt?> 0) ; 0
-(<?cbrt?> 1)   ; 1.0 
-(<?cbrt?> 1.001) ; 1.00033322...  
-(<?cbrt?> -216) ; -6
-(<?cbrt?> 0.000008) ; 0.02
-(<?cbrt?> 1e9) ; 1000
-(<?cbrt?> 64e180) ; 4e60
+(<?procedure-name?> 8)   ; 2
+(<?procedure-name?> 20.08) ; 2.7180320...
+(<?procedure-name?> 0) ; 0
+(<?procedure-name?> 1)   ; 1.0 
+(<?procedure-name?> 1.001) ; 1.00033322...  
+(<?procedure-name?> -216) ; -6
+(<?procedure-name?> 0.000008) ; 0.02
+(<?procedure-name?> 1e9) ; 1000
+(<?procedure-name?> 64e180) ; 4e60
 
