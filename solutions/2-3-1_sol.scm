@@ -11,22 +11,25 @@
 ; Ex 2.53.
 ; Describe what the interpreter response is for each expression
 
-(list 'a 'b 'c)  
-
-(list (list 'george)) 
-(cdr '((x1 x2) (y1 y2))) 
-
-(cadr '((x1 x2) (y1 y2))) 
-(pair? (car '(a short list))) 
-(memq 'red '((red shoes) (blue socks))) 
-
-(memq 'red '(red shoes blue socks))     
+(list 'a 'b 'c)  ; (a b c)
+(list (list 'george)) ; ((george))
+(cdr '((x1 x2) (y1 y2))) ; ((y1 y2))
+(cadr '((x1 x2) (y1 y2))) ; (y1 y2)
+(pair? (car '(a short list))) ; false - the first element is just 'a
+(memq 'red '((red shoes) (blue socks))) ; false - '(red shoes) is a member, but 'red is not
+(memq 'red '(red shoes blue socks))     ; (red shoes blue socks) 
 
 ; Ex 2.54.
 ; An equality procedure for lists
 ;(define built-in-equal? equal?)  ; preserve built-in form if needed 
 
-(define (equal? a b) false )   ; override any existing version
+(define (equal? a b)
+  (cond 
+    ((and (pair? a) (pair? b)) (and (equal? (car a) (car b)) (equal? (cdr a) (cdr b))))
+    ((eq? a b) true)
+    (else false)
+    )
+  )
 
 ; Testing/Observation
 ; Some testing functions
@@ -58,7 +61,6 @@
 (equal? (cdr '(single)) '())    ; Similar, but the first empty list is the result of an expression    
 (equal? '() (list ))
 
-
 (displayln "Pairs")  ; Technically not covered by the problem statement
 (equal? (cons a c) (cons a c))     ; Pairs should be equal
 (equal? '(x . y) (cons 'x 'y))     ; Pairs constructed differently should be equal 
@@ -80,3 +82,13 @@
 ; Evaluating a 'double quote'
 
 (car ''abracadabra)
+
+; The '<expr> gets converted to (quote <expr>).  Thus this expression is equivalent to
+; (car (quote (quote abracadabra))).
+; The quote procedure does not evaluate the expression passed to it but instead converts it 
+; to what it literally is.  It produces the literal list "(quote abacadabra)" which car is applied to.
+; The car of this list is "quote", therefore that is what the interpreter returns.
+
+
+; Bonus: See what happens to this expression
+; (quote (quote (a b c)))  ; (This shows that Racket converts the output)
