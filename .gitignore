@@ -1,0 +1,7 @@
+# OS/Finder Files
+.DS_Store
+.DS_Store?
+
+# DrRacket Backup files
+*.rkt~
+*.scm~
