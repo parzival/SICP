@@ -1,6 +1,6 @@
 ; Section 2.4.3
 
-(load "data_tables.rkt")
+(load "../library/data_tables.rkt")
 
 (define operation-table (make-table))
 (define get (operation-table 'lookup-proc))
