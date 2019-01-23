@@ -101,7 +101,7 @@
 ; Ex 3.6.
 ; Reseeding random number generators
 
-; define (rand)
+; >>define (rand)
 
 
 ; Testing

@@ -150,9 +150,9 @@
 ; Ex 3.6.
 ; Reseeding random number generators
 
-; Method 1: Using LCG and a make-prng procedure.
+; Method 1: Using an LCG and a make-prng procedure.
 
-; The LCG is of the form  a*x + b modulo m 
+; The LCG is of the form  a*x + c modulo m 
 ; If the values used for a and b match the following conditions, the sequence will cover all numbers less than m without repeating: 
 ; 1. m and b are relatively prime.
 ; 2. (a-1) is divisible by all prime factors of m.
@@ -188,6 +188,7 @@
     )
   )
 
+; Note the definition format - rand is the procedure returned by make-prng
 (define rand 
   (make-prng  104877 139 209752 0)
   )
