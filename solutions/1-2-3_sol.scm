@@ -168,6 +168,8 @@
 
 (define (first-denomination kinds-of-coins) 1) ; All denoms assumed to be 1
 
+(define (fact n) (if (<= n 1) 1 (* n (fact (- n 1))) ))
+
 (define (test-cc-order n k)
   (display "Testing (")(display n)(display ",")(display k)(display ")") (newline)
   (display "Answer is :") (display (cc n k) ) (newline)

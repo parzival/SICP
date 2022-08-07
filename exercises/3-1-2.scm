@@ -1,5 +1,36 @@
 ; Section 3.1.2.
 
+; Both MIT and Chicken (or any non-Racket) will need some or all of these defined:
+
+;      (define (displayln s)
+;        (display s)
+;        (newline)
+;        )
+
+; (define (allnull? ln)
+;  (cond 
+;     ((null? ln) #t)
+;	 ((null? (car ln)) (allnull? (cdr ln)))
+;	 (else #f)
+; )
+;)
+
+;  (define (andmap p . ll )
+;    (cond 
+;      ((allnull? ll) 
+;	    #t
+;	    )
+;	  ((apply p (map car ll)) ; true case
+;	    (apply andmap (cons p (map cdr ll)))
+;		)
+;       (else #f)
+;     )
+;   )
+
+;      (define (sqr x) (expt x 2))
+
+;      (define pi 3.141592653589793)
+
 ; Ex 3.5.
 ; Monte Carlo integration
 
@@ -25,6 +56,7 @@
   (iter trials 0)
   )
 
+;>> define estimate-integral
 
 ; Testing
 (displayln "Testing integral estimation (area of triangle)")
@@ -46,13 +78,13 @@
     )
   )
 
-; Use (set! showerror true) [or false] to enable/disable display of percentage error
+; Use (set! showerror true) [or false] to enable [disable] display of percentage error
 (define showerror false)
 
 ; Triangle is a region bounded by y < 6x.  Test rectangle corners are (0,0) and (1,6)
 (define triangleP (lambda (x y) (< y (* 6.0 x))))
 
-; >>Complete with proper arguments to your estimator 
+; >>Complete with proper arguments to the estimator 
 (define (triangle-estimate test-trials) 
   (estimate-integral <<arguments>> )
   )
@@ -74,8 +106,15 @@
 
 (displayln "Estimating pi using unit circle")
 
-; Replace with appropriate test function, # of trials
-(monte-carlo-test trials <<estimator>> pi)  ; Using built-in constant of pi
+; >> Replace with appropriate test function
+(define (pi-test trials)
+  (monte-carlo-test trials <<estimator>> pi)  
+  )
+
+(for-each pi-test '(100 1000 10000))
+(set! showerror true)
+(pi-test 100000)
+(set! showerror false)
 
 ; Large bounding box
 
@@ -86,16 +125,18 @@
 
 (displayln "Estimating pi using unit circle (large bounding box)")
 
-; Replace with appropriate test function, Set # of trials desired
-(monte-carlo-test trials <<estimator>> pi)  ; Using built-in constant of pi
+(for-each pi-test '(100 1000 10000))
+(set! showerror true)
+(pi-test 100000)
+(set! showerror false)
 
 ; Optional:
 ; Use circle defined in book: Center at (5,7), radius of 3
 
-;(displayln "Estimating pi using different circle (tight bounding box)")
+;(displayln "Estimating pi using a different circle (tight bounding box)")
 
-; Replace with appropriate test function, # of trials
-;(monte-carlo-test trials <<estimator>> pi) ; Using built-in constant of pi
+; Adjust # of trials as desired
+;(pi-test 100000)
 
 
 ; Ex 3.6.

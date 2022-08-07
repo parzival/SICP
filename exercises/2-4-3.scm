@@ -1,12 +1,14 @@
 ; Section 2.4.3
 
-(load "../library/data_tables.rkt")
+; Modify if not using Racket; note that complex number tests are Racket-only
+(load "../library/racket/data_tables.rkt")
 
 (define operation-table (make-table))
 (define get (operation-table 'lookup-proc))
 (define put (operation-table 'insert-proc!))
 
-(load "../library/complex-num-tests.rkt")
+; Racket-only, remove if not using Racket
+(load "../library/racket/complex-num-tests.rkt")
 
 ; Arithmetic operations
 (define square sqr)
@@ -144,7 +146,7 @@
 (install-polar-package)
 
 (displayln "Testing Complex Numbers")
-(run-tests complex-tests)
+(run-tests cnumber-tests)
 
 ; Ex. 2.73.
 ; Symbolic differentiation using data-directed dispatch
@@ -213,9 +215,16 @@
 
 ; Testing
 (define (show-basic-deriv)
-  (displayln (deriv '(+ x 3) 'x))  ; 1
-  (displayln (deriv '(* x y) 'x))  ; y
-  (displayln (deriv '(* (* x y) (+ x 3)) 'x)) ; (2xy + 3y)
+  (displayln "Basic derivative results:")
+  (display "3 + x : ")
+  (display (deriv '(+ x 3) 'x))  ; 1
+  (newline)
+  (display " xy : ")
+  (display  (deriv '(* x y) 'x))  ; y
+  (newline)
+  (display " xy * (3 + x) : ")
+  (display (deriv '(* (* x y) (+ x 3)) 'x)) ; (2xy + 3y)
+  (newline)
   )
 
 (show-basic-deriv)
@@ -236,16 +245,16 @@
 ; get an employee's record for a file.
 
 
-
+; Will also need to use put to data table as required
 
 ; Testing
 (newline)
 (displayln "Testing personnel records.")
 
 ; Example file
-(define scr-info '(division-info  (division-id scranton) (division-loc ((state PA) (zip 18510)))))
-(define scr-employees '((scott (2500 office-manager)) 
-                        (schrute (1200 sales)) 
+(define scr-info '(division-info  (division-id SCRA) (division-loc ((state PA) (zip 18510)))))
+(define scr-employees '((scott (2500 office-manager))
+                        (schrute (1200 sales))
                         (kapoor (2000 service-rep))
                         )
   )
@@ -262,38 +271,42 @@
     )
   )
 
+
 ; Testing get-record with one file
-(display "Kapoor's record from dm-file is ")
 ; Get Kapoor's record
+(display "Kapoor's record from dm-file is ")
+
 
 ; Attempt to get a record not existing in the file
 (display "Palmer's record from dm-file is ")
 
 
 ; b. Implement a (get-salary) procedure that can
-; get the salary information from a given employee's 
+; get the salary information from a given employee's
 ; record.
 
 
 ;Testing
-(display "Schrute's salary is ")
+
 ; Get Schrute's salary using get-salary
+(display "Schrute's salary is :")
 
+; Show what happens for someone not found with get-salary
+(display "Unknown salary result:")
 
+(newline)
 ; c. Implement a (find-employee-record) procedure to
 ; locate an employee in a list of files
 
 
 ;Testing
-(define employee-files (list dm-file))
 
+; Use find-employee-record to find scott in (list dm-file)
 (display "Searching for record of Scott ... ")
-; Use find-employee-record to find scott in employee-files.
-
 
 ; Adding another file
 
-(define slo-info '(division-info (division-loc 'SL1)))
+(define slo-info '(division-info (division-id ((name slough) (number 3))) (division-loc SL1)))
 
 (define slo-employee-ids '(id-nos (Brent 0) (Keenan 1) (Roper 2)))
 
@@ -335,45 +348,52 @@
   (define (salary-from-record record)
     (let ((salary-pair (assoc 'salary record)))
       (if salary-pair
-          (cdr salary-pair)
+          (cadr salary-pair)
           (error "Cannot process record for salary : " record)
           )
       )
     )
   
   ; interface
+ 
+  ; Add puts to data table as needed
   
-  (put 'retrieve-record 'slough record-retrieval)
-  (put 'retrieve-salary 'slough salary-from-record)
   )
-
-
 
 ;Testing wh-package
 (display "Verifying wh-package install ... ")
 (install-wh-package)
 
+(displayln "Checking wh-file")
 
-(displayln "Testing wh-file")
-; Use get-record for Brent in the file
+; Use get-record for Brent 
+
+; Use get-salary for Keenan
 
 ; Use get-record for someone not in the file
 
-; Do searches across all division files
+(displayln "Searching across multiple files")
+(define offices (list wh-file dm-file))
 
-; Testing with multiple files
-(display "Searching for Scott ... ")   ; person is in a file
-;(find-employee-record...
-(display "Searching for Roper ... ")   ; person in another file
-;(find-employee-record...
-(display "Searching for Bratton ... ") ; person not in any file
+ ; person is in a file
+(display "Searching for Scott ... ")  
 ;(find-employee-record...
 
+; person in another file
+(display "Searching for Roper ... ")   
+;(find-employee-record...
 
-; Check that get-salary works
+; person not in any file
+(display "Searching for Bratton ... ") 
+;(find-employee-record...
+
+; Using get-salary across files
+; Find Brent's salary starting with just his name and the offices list
 (display "Brent's salary is :")
-;(get-salary (find-employee-record 'Brent ...
 ; Ought to be 600
+
+; Check what happens when a result is not found
+(display "Unknown salary is :")
 
 ; d. What changes are required when taking over a new company?
 
@@ -416,7 +436,7 @@
 (real-part n1)
 (magnitude n1)
 
-(displayln "Testing make-from-mag-ang.")
+(displayln "Verifying make-from-mag-ang.")
 (define n2 (make-from-mag-ang 3 4))
 (real-part n2)
 (imag-part n2)
@@ -424,15 +444,15 @@
 (angle n2)
 
 (newline)
-(displayln "Testing complex number operations using message passing.")
+(displayln "Testing arithmetic operations using message passing.")
 
-(run-tests numeric-tests)
+(run-all-tests 'verbose) ; Optional, requires Racket complex tests
 
-(displayln "Testing arithmetic.")
-(run-tests math-tests)
+(displayln "Verifying complex number arithmetic.")
+(mul-complex (make-from-real-imag 0 0) (make-from-mag-ang 1 2))
 
 ; Add 'print' to mag-ang for this to work
-(define (show-complex z) (apply-generic 'print z)) 
+(define (show-complex z) (apply-generic 'print z))
 
 (display "n1: ")
 (show-complex n1)

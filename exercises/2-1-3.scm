@@ -66,7 +66,7 @@
 (equal? (((add-1 <?one?>) add-s-to-str) "0") ((<?two?> add-s-to-str) "0"))
 (equal? (((add-1 <?two?>) add-s-to-str) "0") ((three add-s-to-str) "0"))
 (equal? (((<?+?> one two) add-s-to-str) "0") ((three add-s-to-str) "0"))
-; Test another procedures
+; Test some other procedures
 (define (decr x)
   (- x 1)
   )
@@ -75,9 +75,3 @@
 ((three decr) 0)
 ; These should be equal
 (= (((add-1 (add-1 three)) decr) 0) (((<?+?> <?two?> three) decr) 0))
-
-  
-
-
-  
-

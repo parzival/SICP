@@ -15,7 +15,7 @@
   )
   )
 
-(define (exception-message exn)
+(define (exception-message exc)
   (display (condition/report-string exc))
   )
 

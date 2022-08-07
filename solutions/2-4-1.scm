@@ -1,9 +1,12 @@
-(load "../library/complex_num_tests.rkt")
+; Test functions may be replaced for any implementation, as
+; long as 'check-=' and 'run-all-tests' are defined.
+; See the test file for more.
+(load "../library/racket/complex-num-tests.rkt")
 
 (define square sqr)
 
 ; Examples of checks
-(displayln "Check examples")
+(displayln "Check results examples (pass, failure, error)")
 (check-= 5 5 0.1) ; passes, nothing happens (no output)
 (check-= 5 6 0.1) ; generates failure
 (check-= 'porcupine 7 0.1) ; signals error, continues

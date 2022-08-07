@@ -14,7 +14,7 @@
   
   (define (dispatch pass m)
     (if (not (eq? pass password))
-        (lambda (x) "Incorrect password")
+        (lambda (x) 'incorrect-password )
         (orig-account orig-password m)
         )
     )     
@@ -45,7 +45,7 @@
 (check-eqv? ((peter-acc 'open-sesame 'deposit) 10) 130 "Original account can still deposit")
 (check-eqv? ((paul-acc 'rosebud 'withdraw) 40) 90 "Joint account can withdraw from account")
 (check-eqv? ((peter-acc 'open-sesame 'withdraw) 5) 85 "Original account can still withdraw")
-(check-eqv? ((paul-acc 'open-sesame 'deposit) 13) "Incorrect password" "Joint account can only use its own password") ; Replace with response for incorrect password
+(check-eqv? ((paul-acc 'open-sesame 'deposit) 13) 'incorrect-password "Joint account can only use its own password") ; Replace with response for incorrect password
 (check-eqv? ((bob-acc 'tambourine 'withdraw) 35) 85 "Joint accounts do not interfere with any other accounts")
 (check-eqv? ((mary-acc 'stewball 'deposit) 90) 175 "Chained joint accounts work properly")
 
@@ -121,6 +121,7 @@
     (displayln "FAILED: Results for f should be different")
     )
 
+(displayln "Further demonstrations of evaluation order")
 ; Commented values are for an environment that evaluates left-to-right
 (+ (f 0) (f 1))  ; 0
 (+ (f 1) (f 0))  ; 1

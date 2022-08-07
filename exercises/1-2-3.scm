@@ -1,7 +1,5 @@
 ; Section 1.2.3
 
-;(define (add1 x) (+ 1 x))
-
 ; Setup functions
 (define (count-change amount) (cc amount 5))
 

@@ -3,7 +3,8 @@
 ; Ex 1.9. 
 ; Iterative and Recursive Substitution
 
-(define (inc x) (add1 x))
+; Racket(Pretty Big)-specific - use other forms, e.g. 1+ / -1+ instead of add/sub1 for MIT Scheme
+(define (inc x) (add1 x)) 
 (define (dec x) (sub1 x))
 
 ; Show the substitution process for these two implementations of + when evaluating (+ 4 5). 

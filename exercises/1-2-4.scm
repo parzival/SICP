@@ -1,6 +1,6 @@
 ; Section 1.2.4
 
-(define (square x) (sqr x))
+(define (square x) (sqr x)) ; Remove/redefine for other versions of Scheme
 
 ; Ex 1.16.
 ; Iterative exponentiation in log time
@@ -105,4 +105,4 @@
 (fib 5)  ; 5
 (fib 7)  ; 13
 (fib 83) ; 99194853094755497
-(time (void (fib 4000000))) ; ... a very large number
+;(time (void (fib 4000000))) ; ... a very large number

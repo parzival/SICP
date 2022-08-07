@@ -76,7 +76,7 @@
 ; Testing
 ; Demonstrating basic derivative function
 (define (basic-deriv-check)
-  (displayln "Testing basic derivatives:")
+  (displayln "Checking basic derivatives:")
   (displayln (deriv '(+ x 3) 'x))  ; 1
   (displayln (deriv '(* x y) 'x))  ; y
   (displayln (deriv '(* (* x y) (+ x 3)) 'x)) ; (2xy + 3y)
@@ -141,12 +141,12 @@
         )
   )
 ; Testing
-(displayln "Testing modified derivative")
+(displayln "Verifying modified derivative")
 (basic-deriv-check)
 
 ; New functions
 (define (pow-deriv-check) 
-  (displayln "Testing power rule for derivatives:")
+  (displayln "Checking power rule for derivatives:")
   (displayln (deriv '(** x  2) 'x))    ; 2x
   (displayln (deriv '(** a  3) 'a))    ; 3a^2
   (displayln (deriv '(** x -1) 'x))   ; -1/(x^2)
@@ -234,10 +234,10 @@
 
 ; Testing
 (newline)
-(displayln "Testing arbitrary lists for derivatives")
+(displayln "Verifying arbitrary lists for derivatives")
 
 ; Testing make-sum and make-product
-(displayln "Testing make-sum and make-product")
+(displayln "Verifying make-sum and make-product")
 (make-sum 2 2)
 (make-sum 'a 'b)
 (make-sum 'a 'b 'c 'd)
@@ -322,10 +322,12 @@
   )
 
 ; Testing
-(displayln "Testing infix operation (two terms only)")
+
+; See also (calc-xpr) below
+(displayln "Verifying infix operation (two terms only)")
 
 (define (basic-constructor-selectors-check)
-  (displayln "Testing constructors")
+  (displayln "Checking constructors")
   (displayln  (make-sum 'a 'b))
   (displayln  (make-sum 'a '(b + c) ))
   
@@ -347,7 +349,7 @@
 
 ; redefine tests
 (define (infix-basic-deriv-check)
-  (displayln "Testing derivatives with infix operators")
+  (displayln "Checking derivatives with infix operators")
   (displayln (deriv '(x + 3) 'x))    ; 1
   (displayln (deriv '(x * y) 'x))    ; y
   (displayln (deriv '((x * y) * (x + 3)) 'x))        ; (2xy + 3y)
@@ -555,11 +557,11 @@
 
 ; Testing expressions
 (newline)  
-(displayln "Testing infix notation with precedence")
+(displayln "Verifying infix notation with precedence")
 
 (basic-constructor-selectors-check)
 
-(displayln "More constructor & selector testing")
+(displayln "More constructor & selector verifying")
 (make-sum 'a 'b 'c)
 (make-sum 'a '(b + c) 'd)
 (make-product 'a 'b 'c)
@@ -605,7 +607,7 @@
 (define d 11)
 (define e 19)
 
-(displayln "Testing calculation")
+(displayln "Verifying calculations")
 (calc-xpr (list a '+ b '+ c))  ; 12
 (calc-xpr (list a '+ b '* c))  ; 23
 (calc-xpr (list (list a '+ b) '* c)) ; 35
@@ -617,7 +619,7 @@
 (calc-xpr (list a '+ b '* c '* (list d '+ e))) ; 632
 
 
-(infix-basic-deriv-check)  
+(infix-basic-deriv-check)
 
 ; Bonus operations
 (define (prec op)

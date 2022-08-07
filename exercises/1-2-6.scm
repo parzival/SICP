@@ -1,5 +1,6 @@
 ; Section 1.2.6
 
+;Define square (only necessary for Racket/PB)
 (define square sqr)
 
 ; Support procedures

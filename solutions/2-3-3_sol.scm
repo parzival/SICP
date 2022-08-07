@@ -2,6 +2,14 @@
 
 ; Unordered non-duplicated list
 
+; May be needed if not defined in interpreter
+;      (define (andmap pred l)
+;        (cond ((null? l) true)
+;          ((pred (car l)) (andmap pred (cdr l)))
+;          (else false)
+;          )
+;        )
+
 (define (element-of-set? x set)
   (cond ((null? set) false)
         ((equal? x (car set)) true)
@@ -112,6 +120,7 @@
 
 (define (sets-equal? a b)
   ; andmap - like flatmap, just using Boolean AND to accumulate
+  ; use implementation at the head of the file if not defined for your interpreter
   (and (andmap (lambda (x) (element-of-set? x b)) (set->list a)) 
        (andmap (lambda (x) (element-of-set? x a)) (set->list b))
        )
@@ -524,7 +533,7 @@ test-set3  ; {3 7 8 9}
 (define tree->list tree->list-2) ; select one to use, for clarity
 
 ; Ex. 2.65.
-; Implementing union-set and interstection-set on binary trees
+; Implementing union-set and intersection-set on binary trees
 
 (define (element-of-set? x set)
   (cond ((null? set) false)
@@ -557,11 +566,25 @@ test-set3  ; {3 7 8 9}
          )
         )
   )
+  
+  ; Simplest way by using previous exercises - convert the tree to a list
+  ; Work the linear op on the list, and then convert back to a tree. All
+  ; operations are O(n).
+
+(define (union-set tset1 tset2)
+    (list->tree (union-oset (tree->list tset1) (tree->list tset2)))
+    )
+
+(define (intersection-set tset1 tset2)
+    (list->tree (intersection-oset (tree->list tset1) (tree->list tset2)))
+    )
+
+  ; Testing
 
 ; Testing
 ; Replace some definitions
 (define (set->list set) (tree->list set))
-(define (build-set li) (list->tree (sort li <)))  ; sort is in Racket, and sorts using the second argument
+(define (build-set li) (list->tree (sort li <)))  ; sort function sorts using the second argument
 
 ; The faked sets need to be converted to trees
 (define non-empty-set (list->tree non-empty-set))
@@ -571,20 +594,6 @@ test-set3  ; {3 7 8 9}
 (displayln "Running set tests using tree implementation")
 (element-tests)
 (adjoin-tests)
-
-; Simplest way by using previous exercises - convert the tree to a list
-; Work the linear op on the list, and then convert back to a tree. All
-; operations are O(n).
-
-(define (union-set tset1 tset2)
-  (list->tree (union-oset (tree->list tset1) (tree->list tset2)))
-  )
-
-(define (intersection-set tset1 tset2)
-  (list->tree (intersection-oset (tree->list tset1) (tree->list tset2)))
-  )
-
-; Testing
 (set-op-tests)
 
 (displayln "Observing tree set operations")
@@ -603,6 +612,7 @@ test-set3  ; {3 7 8 9}
 ; Ex. 2.66.
 ; Implementing key-based lookup in trees
 
+; Unordered-list version (for comparison)
 (define (lookup-uolist given-key set-of-records) 
   (cond ((null? set-of-records) false)
         ((equal? given-key (key (car set-of-records))) (car set-of-records))
@@ -633,7 +643,6 @@ test-set3  ; {3 7 8 9}
 
 
 ; Testing
-
 (displayln "Observing key-based lookup in trees")
 
 ; Using letters as records; the key is the position in the alphabet.
@@ -650,7 +659,7 @@ test-set3  ; {3 7 8 9}
 (lookup-tree 12 alpha-tree) ; "l"
 (lookup-tree 14 alpha-tree) ; false
 
-; Modifying it to use key-value pairs
+; Modifying key to use key-value pairs
 (define (key entry) (car entry))
 (define (value entry) (cdr entry))
 

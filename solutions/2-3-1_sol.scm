@@ -21,7 +21,7 @@
 
 ; Ex 2.54.
 ; An equality procedure for lists
-;(define built-in-equal? equal?)  ; preserve built-in form if needed 
+;(define built-in-equal? equal?)  ; preserve built-in form if needed
 
 (define (equal? a b)
   (cond 
@@ -90,5 +90,5 @@
 ; The car of this list is "quote", therefore that is what the interpreter returns.
 
 
-; Bonus: See what happens to this expression
-; (quote (quote (a b c)))  ; (This shows that Racket converts the output)
+; Bonus: See what happens to this expression in DrRacket (or your interpreter)
+; (quote (quote (a b c)))  

@@ -2,6 +2,14 @@
 
 ; Unordered non-duplicated list
 
+; May be needed if not defined in interpreter
+;      (define (andmap pred l)
+;        (cond ((null? l) true)
+;          ((pred (car l)) (andmap pred (cdr l)))
+;          (else false)
+;          )
+;        )
+
 (define (element-of-set? x set)
   (cond ((null? set) false)
         ((equal? x (car set)) true)
@@ -106,6 +114,7 @@
 
 (define (sets-equal? a b)
   ; andmap - like flatmap, just using Boolean AND to accumulate
+  ; use implementation at the head of the file if not defined for your interpreter
   (and (andmap (lambda (x) (element-of-set? x b)) (set->list a)) 
        (andmap (lambda (x) (element-of-set? x a)) (set->list b))
        )
@@ -392,7 +401,7 @@ test-set3  ; {3 7 8 9}
 (define tree->list tree->list-2) ; select one to use, for clarity
 
 ; Ex. 2.65.
-; Implementing union-set and interstection-set on binary trees
+; Implementing union-set and intersection-set on binary trees
 
 (define (element-of-set? x set)
   (cond ((null? set) false)
@@ -425,11 +434,14 @@ test-set3  ; {3 7 8 9}
          )
         )
   )
+  
+; Define the union-set & intersection-set as needed for binary trees
+
 
 ; Testing
 ; Replace some definitions
 (define (set->list set) (tree->list set))
-(define (build-set li) (list->tree (sort li <)))  ; sort is in Racket, and sorts using the second argument
+(define (build-set li) (list->tree (sort li <)))  ; sort function sorts using the second argument
 
 ; The faked sets need to be converted to trees
 (define non-empty-set (list->tree non-empty-set))
@@ -439,7 +451,6 @@ test-set3  ; {3 7 8 9}
 (displayln "Running set tests using tree implementation")
 (element-tests)
 (adjoin-tests)
-
 (set-op-tests)
 
 (displayln "Observing tree set operations")
@@ -458,8 +469,50 @@ test-set3  ; {3 7 8 9}
 ; Ex. 2.66.
 ; Implementing key-based lookup in trees
 
+; Unordered-list version (for comparison)
+(define (lookup-uolist given-key set-of-records) 
+  (cond ((null? set-of-records) false)
+        ((equal? given-key (key (car set-of-records))) (car set-of-records))
+        (else (lookup-uolist given-key (cdr set-of-records)))
+        )
+  )
 
 
+; Define lookup for trees
+
+; Testing
+(displayln "Observing key-based lookup in trees")
+
+; Using letters as records; the key is the position in the alphabet.
+(define (key ltr) (add1 (- (char->integer ltr) (char->integer #\a))))
+
+(define alpha-list (list #\d #\o #\r #\l #\t #\x #\b))
+
+(define alpha-tree (list->tree alpha-list))
+
+(lookup-uolist 12 alpha-list) ; "l"
+(lookup-uolist 14 alpha-list) ; false
+
+(<? lookup ?> 12 alpha-tree) ; "l"
+(<? lookup ?> 14 alpha-tree) ; false
+
+; Modifying key to use key-value pairs
+(define (key entry) (car entry))
+
+(define name-list (list (cons 19 "T. Leighton")
+                        (cons 3 "H. Sato")
+                        (cons 7 "E. Molson")
+                        (cons 23 "K. Riley")
+                        (cons 40 "J. Kirk" )
+                        )
+  )
+
+(define name-tree (list->tree name-list))
+
+(lookup-uolist 7 name-list) ; E. Molson
+(lookup-uolist 13 name-list) ; false/failed
+(<? lookup ?> 7 name-tree)  ; E. Molson
+(<? lookup ?> 13 name-tree) ; false/failed
 
 
 

@@ -78,8 +78,13 @@
 
 ; Testing
 (displayln "Testing approximation to e using (cont-frac)")
-; Expected value : 
-(exp 1) ; e (if exp function is supported)
+(display "Expected value: ") 
+(display (exp 1)) ; e (if exp function is supported)
+(newline)
+; Estimate using cont-frac
+(display "Computed value: ")
+; ?? show estimate ??
+(newline)
 
 ; Ex 1.39.
 ; Tangent using a continued fraction

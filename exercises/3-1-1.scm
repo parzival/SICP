@@ -1,5 +1,40 @@
 ; Section 3.1.1
 
+; non-Racket Schemes will need some or all of these defined:
+
+; (define (displayln s)
+;   (display s)
+;   (newline)
+; )
+
+; (define (allnull? ln)
+;  (cond 
+;     ((null? ln) #t)
+;	 ((null? (car ln)) (allnull? (cdr ln)))
+;	 (else #f)
+;  )
+; )
+
+; (define (andmap p . ll )
+;   (cond 
+;     ((allnull? ll) 
+;       #t
+;     )
+;     ((apply p (map car ll)) ; true case
+;       (apply andmap (cons p (map cdr ll)))
+;     )
+;     (else #f)
+;   )
+; )
+
+; (define (sqr x) (expt x 2))
+
+; (define pi 3.141592653589793)
+
+; (format) also required for check-eqv?, or redefine it below to not use format
+
+; END of additional procedures for other implementations
+
 ; Basic equality test (halts on errors)
 (define (check-eqv? observed expected . label-args)
   (if (eqv? observed expected)
@@ -134,19 +169,19 @@
 (displayln "Testing account operation with password")
 (check-eqv? ((acc 'secret-password 'deposit) 20) 80 "Deposits can be made with the password")
 (check-eqv? ((acc 'secret-password 'withdraw) 20) 60 "Withdrawals can be made with the password")
-(check-eqv? ((acc 'some-other-password 'withdraw) 50) "Incorrect password" "Incorrect password returns a complaint") ; This specific return value is not necessarily a requirement
+(check-eqv? ((acc 'some-other-password 'withdraw) 50) 'incorrect-password "Incorrect password returns a complaint") ; This specific return value is not necessarily a requirement
 (check-eqv? ((acc 'secret-password 'deposit) 0) 60 "Invalid access does not change the account value") ; Relies on previous tests
 
 
 ; Ex 3.4.
 ; Limited password attempts
 
+;>> Create a version that fails after multiple password attempts
 
 ; The call-the-cops procedure may be redefined.
 (define (call-the-cops)
   (displayln "Remain where you are.  The police will arrive shortly to arrest you.")
   )
-
 
 ; Testing
 (newline)

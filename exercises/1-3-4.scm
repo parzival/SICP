@@ -1,6 +1,6 @@
 ; Section 1.3.4
 
-; Need to define if using Racket-derived languages
+; Need to define if using Racket/PB. Other implementations may define these differently
 (define (inc x)
   (add1 x)  
   )
@@ -124,6 +124,7 @@
 (displayln "Testing nth root function")
 (<?nth-root?> 7 279936) ; 6
 (<?nth-root?> 5 -243.0) ; -3
+;(<?nth-root?> 0 -1.0)   ; 1  (possibly valid)
 ;(<?nth-root?> 0.5 7) ; what happens? [not valid input]
 
 

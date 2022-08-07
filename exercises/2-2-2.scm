@@ -1,10 +1,14 @@
 ; Section 2.2.2
 
-(define (header phrase) 
+(define (header phrase)
   (newline)
   (display phrase)
   (newline)
   )
+
+; Needed for Racket/PB
+(define nil null)
+
 
 ; Ex 2.24
 ; Give the interpreter result, box-and-pointer, and tree representations
@@ -207,7 +211,7 @@
 ; refer to definitions from Ex 2.21 as needed
 (define (square-list-1 items)
   (if (null? items)
-      null
+      nil
       (cons (sqr (car items)) (square-list-1 (cdr items)))
       )
   )
@@ -232,6 +236,7 @@
 
 ; Ex 2.31
 ; Map for trees
+
 (define (tree-map proc tr)
   (map (lambda(subtr)
          (if (pair? subtr)
@@ -259,7 +264,7 @@
 ; Complete the definition, and explain how the function works
 (define (subsets s) 
   (if (null? s)
-      (list null)
+      (list nil)
       (let ((rest (subsets (cdr s))))
         (append rest (map <??> rest))
         )

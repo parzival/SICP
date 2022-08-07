@@ -2,7 +2,6 @@
 (require (planet "sicp.ss" ("soegaard" "sicp.plt" 2 1)))
 
 
-
 ; Preserve predefined functions
 (define soegaard-make-segment make-segment)
 (define soegaard-segments->painter segments->painter)
@@ -15,11 +14,11 @@
 
 ; Possible to do this by using the frame?
 (define (draw-line start end)
-  (set-canvas 
+  (set-canvas
    (superpose (get-canvas)
-              (soegaard-segments->painter 
-               (list 
-                (soegaard-make-segment 
+              (soegaard-segments->painter
+               (list
+                (soegaard-make-segment
                  (soegaard-make-vect (xcor-vect start) (ycor-vect start))
                  (soegaard-make-vect (xcor-vect end) (ycor-vect end))
                  )
@@ -33,7 +32,7 @@
 (define (set-canvas c)
   (set! canvas c)
   )
-
+(define (get-canvas) canvas)
 
 ; Paint painter directly, using a frame
 (define (paint-with-frame painter frame)
@@ -45,7 +44,7 @@
 ; Turn painter as defined in the exercise into one that works with the library
 ; This is required since frames defined using one style are incompatible with the other.
 (define (painter->soegaard-painter painter frame)
-  (let ((pcanvas white))    
+  (let ((pcanvas white))
     (set-canvas pcanvas)
     (painter frame)
     (set! pcanvas (get-canvas))
@@ -65,7 +64,7 @@
 
 (define (corner-split painter n)
   (if (= n 0)
-      painter 
+      painter
       (let ((up (up-split painter (- n 1)))
             (right (right-split painter (- n 1)))
             )
@@ -82,10 +81,10 @@
   )
 
 ; Ex 2.44
-; Define the procedure up-split used by corner-split 
+; Define the procedure up-split used by corner-split
 
 ; Testing
-(displayln "Testing up-split")
+(displayln "Verifying up-split")
 (paint (up-split diagonal-shading 2))
 (displayln "As used in corner-split")
 (paint (corner-split einstein 4))
@@ -95,7 +94,7 @@
 
 
 ; Testing
-(displayln "Testing generic split")
+(displayln "Verifying generic split")
 (define old-right-split right-split)
 (define old-up-split up-split)
 
@@ -127,12 +126,12 @@
 
 ; Testing
 (newline)
-(displayln "Testing vectors")
+(displayln "Verifying vectors")
 
 (define v1 (make-vect 0.0 5.0))
 (define v2 (make-vect -2.0 3.5))
 (displayln "v2 x-coordinate and y-coordinate are:")
-(xcor-vect v2)   
+(xcor-vect v2)
 (ycor-vect v2)
 (display "Same vectors added two ways should be equal:")
 (print-vect (add-vect v1 v2)) ; (-2,8.5)
@@ -184,7 +183,7 @@
 
 ; Testing version 1
 (newline)
-(displayln "Testing frame selectors (version 1)")
+(displayln "Verifying frame selectors (version 1)")
 (define (make-sample-frames)
   (let ((frame1 (make-frame (make-vect 3 1)
                             (make-vect 2.82 1.03)
@@ -203,6 +202,7 @@
   )
 
 (make-sample-frames)
+
 ; Version 2
 (define (make-frame2 origin edge1 edge2) 
   (cons origin (cons edge1 edge2))
@@ -211,7 +211,7 @@
 ; redefine selectors
 
 ; Testing version 2
-(displayln "Testing frame selectors (version 2)")
+(displayln "Verifying frame selectors (version 2)")
 (make-sample-frames)
 
 
@@ -235,7 +235,7 @@
 
 ; Basic testing
 ; More usage tests in Ex 2.49
-(displayln "Testing segments")
+(displayln "Verifying segments")
 
 (define test-seg (make-segment 0 1 3 5))
 (print-vect (start-segment test-seg))  ; (0,1)
@@ -252,7 +252,7 @@
 
 
 ; Testing
-(displayln "Testing primitive painters")
+(displayln "Verifying primitive painters")
 
 (define def-frame (make-frame (make-vect 0 0) (make-vect 1.0 0) (make-vect 0 1.0)))
 
@@ -274,10 +274,13 @@
 (paint-with-frame <?cross?> skew-frame)
 (displayln "Skewed Wave")
 (paint-with-frame <?wave?> skew-frame)
-(displayln "Frame goes outside drawing area")
+
+; Frame goes beyond drawing area
+(displayln "Frame outside drawing area")
 (paint-with-frame <?cross?> (make-frame (make-vect 0.5 0.6) (make-vect 0.8 -0.4) (make-vect 0.1 0.6)))
 (paint-with-frame <?wave?> (make-frame (make-vect 0.1 0.1) (make-vect -0.1 0.6) (make-vect 0.5 0.6)))
-) ; Note edge orientation 
+; Note edge orientation 
+
 ; For convenience ahead, redefine these:
 (define framebox-painter 
   (painter->soegaard-painter <?frame outline?>
@@ -308,7 +311,7 @@
 ;    )
 ;  )
 
-; Built-in transform
+; Rename built-in transform
 (define soegaard-transform-painter transform-painter)
 
 
@@ -367,7 +370,7 @@
 (displayln "rotate90")
 (paint (rotate90 sg-wave-painter))
 
-(displayln "Testing new transforms")
+(displayln "Verifying new transforms")
 (displayln "Horizontal flip")
 (paint (<?horizontal flip?> sg-wave-painter))
 (displayln "Rotate 180")
@@ -389,6 +392,7 @@
 ; Ex 2.51
 ; Define below in two ways
 
+; Define first version of below
 
 ; Testing below
 (define (below-examples)
@@ -398,14 +402,13 @@
   (displayln (paint (below (beside diamond-painter diamond-painter) sg-wave-painter)))
   )
 
-(displayln "Testing below (version 1)")
+(displayln "Verifying below (version 1)")
 (below-examples)
 
 ; Now define below in terms of rotations and beside
 
 
-(displayln "Testing below (version 2)")
-
+(displayln "Verifying below (version 2)")
 (below-examples)
 
 ; Ex 2.52
@@ -413,11 +416,21 @@
 ; a. Add a few segments to wave 
 
 
+; Testing
+(newline)
+(displayln "Verifying modified wave-painter") 
+; paint-with-frame  modified version
+
 ; b. Modify corner-split
 
 
-(displayln "Old corner-split")
+; Testing
+
+(displayln "Old corner-split") 
+; adjust procedure names as needed
 (paint-hi-res (corner-split (painter->soegaard-painter <?any painter?> def-frame) 4))
+(displayln "New corner-split")
+; do the same with new version
 
 ; c. Modify square-limit
 
@@ -443,6 +456,8 @@
   )
 
 ; Testing
-
 (displayln "Old square-limit")
+; adjust procedure names as needed
 (paint-hi-res (square-limit einstein 5))
+(displayln "New square-limit")
+; do the same with new version

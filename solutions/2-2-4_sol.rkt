@@ -2,7 +2,6 @@
 (require (planet "sicp.ss" ("soegaard" "sicp.plt" 2 1)))
 
 
-
 ; Preserve predefined functions
 (define soegaard-make-segment make-segment)
 (define soegaard-segments->painter segments->painter)
@@ -14,11 +13,11 @@
 (define soegaard-segments->painter segments->painter)
 
 (define (draw-line start end)
-  (set-canvas 
+  (set-canvas
    (superpose (get-canvas)
-              (soegaard-segments->painter 
-               (list 
-                (soegaard-make-segment 
+              (soegaard-segments->painter
+               (list
+                (soegaard-make-segment
                  (soegaard-make-vect (xcor-vect start) (ycor-vect start))
                  (soegaard-make-vect (xcor-vect end) (ycor-vect end))
                  )
@@ -32,7 +31,7 @@
 (define (set-canvas c)
   (set! canvas c)
   )
-
+(define (get-canvas) canvas)
 
 ; Paint painter directly, using a frame
 (define (paint-with-frame painter frame)
@@ -44,7 +43,7 @@
 ; Turn painter as defined in the exercise into one that works with the library
 ; This is required since frames defined using one style are incompatible with the other.
 (define (painter->soegaard-painter painter frame)
-  (let ((pcanvas white))    
+  (let ((pcanvas white))
     (set-canvas pcanvas)
     (painter frame)
     (set! pcanvas (get-canvas))
@@ -64,7 +63,7 @@
 
 (define (corner-split painter n)
   (if (= n 0)
-      painter 
+      painter
       (let ((up (up-split painter (- n 1)))
             (right (right-split painter (- n 1)))
             )
@@ -101,7 +100,7 @@
   )
 
 ; Testing
-(displayln "Testing up-split")
+(displayln "Verifying up-split")
 (paint (up-split diagonal-shading 2))
 (displayln "As used in corner-split")
 (paint (corner-split einstein 4))
@@ -122,7 +121,7 @@
 
 
 ; Testing
-(displayln "Testing generic split")
+(displayln "Verifying generic split")
 (define old-right-split right-split)
 (define old-up-split up-split)
 
@@ -183,12 +182,12 @@
 
 ; Testing
 (newline)
-(displayln "Testing vectors")
+(displayln "Verifying vectors")
 
 (define v1 (make-vect 0.0 5.0))
 (define v2 (make-vect -2.0 3.5))
 (displayln "v2 x-coordinate and y-coordinate are:")
-(xcor-vect v2)   
+(xcor-vect v2)
 (ycor-vect v2)
 (display "Same vectors added two ways should be equal:")
 (print-vect (add-vect v1 v2)) ; (-2,8.5)
@@ -252,7 +251,7 @@
 
 ; Testing version 1
 (newline)
-(displayln "Testing frame selectors (version 1)")
+(displayln "Verifying frame selectors (version 1)")
 (define (make-sample-frames)
   (let ((frame1 (make-frame (make-vect 3 1)
                             (make-vect 2.82 1.03)
@@ -290,7 +289,7 @@
   )
 
 ; Testing version 2
-(displayln "Testing frame selectors (version 2)")
+(displayln "Verifying frame selectors (version 2)")
 (make-sample-frames)
 
 
@@ -334,7 +333,7 @@
 
 ; Basic testing
 ; More usage tests in Ex 2.49
-(displayln "Testing segments")
+(displayln "Verifying segments")
 
 (define test-seg (make-segment 0 1 3 5))
 (print-vect (start-segment test-seg))  ; (0,1)
@@ -401,7 +400,7 @@
   )
 
 ; Testing
-(displayln "Testing primitive painters")
+(displayln "Verifying primitive painters")
 
 (define def-frame (make-frame (make-vect 0 0) (make-vect 1.0 0) (make-vect 0 1.0)))
 
@@ -427,6 +426,7 @@
 (paint-with-frame wave-painter skew-frame)
 
 ; Frame goes beyond drawing area
+(displayln "Frame outside drawing area")
 (paint-with-frame cross-painter (make-frame (make-vect 0.5 0.6) (make-vect 0.8 -0.4) (make-vect 0.1 0.6)))
 (paint-with-frame wave-painter (make-frame (make-vect 0.1 0.1) (make-vect -0.1 0.6) (make-vect 0.5 0.6)))
 ; For convenience ahead, redefine these:
@@ -459,7 +459,7 @@
 ;    )
 ;  )
 
-; Built-in transform
+; Rename built-in transform
 (define soegaard-transform-painter transform-painter)
 
 
@@ -542,17 +542,18 @@
 (displayln "rotate90")
 (paint (rotate90 sg-wave-painter))
 
-(displayln "Testing new transforms")
-(displayln "flip-horiz")
+(displayln "Verifying new transforms")
+(displayln "Horizontal flip")
 (paint (flip-horiz sg-wave-painter))
-(displayln "rotate180")
+(displayln "Rotate 180")
 (paint (rotate180 einstein))
-(displayln "rotate270")
+(displayln "Rotate 270")
 (paint (rotate270 sg-wave-painter))
-(displayln "beside with flip-horiz and rotate180")
+(displayln "Beside with horizontal flip and 180 rotation:")
 (paint (beside sg-wave-painter (flip-horiz (rotate180 sg-wave-painter))))
 
 ; Ex 2.51
+; Define below in two ways
 
 (define (below painter1 painter2)
   (let ((split-frac 0.5))
@@ -575,7 +576,6 @@
   )
 
 ; Testing below
-
 (define (below-examples)
   (displayln "wave below cross")
   (displayln (paint (below sg-wave-painter cross-painter)))
@@ -583,7 +583,7 @@
   (displayln (paint (below (beside diamond-painter diamond-painter) sg-wave-painter)))
   )
 
-(displayln "Testing below (version 1)")
+(displayln "Verifying below (version 1)")
 (below-examples)
 
 ; Now define below in terms of rotations and beside
@@ -592,8 +592,7 @@
   (rotate90 (beside (rotate90 painter1) (rotate270 painter2)))
   )
 
-(displayln "Testing below (version 2)")
-
+(displayln "Verifying below (version 2)")
 (below-examples)
 
 ; Ex 2.52
@@ -618,7 +617,7 @@
 
 ; Testing
 (newline)
-(displayln "Testing wave-painter with smile") 
+(displayln "Verifying wave-painter with smile") 
 (paint-with-frame wave-smile-painter def-frame)
 
 ; b. Modify corner-split
@@ -646,6 +645,8 @@
 (paint-hi-res (corner-split (painter->soegaard-painter wave-smile-painter def-frame) 4))
 (displayln "New corner-split")
 (paint-hi-res (corner-split-modded (painter->soegaard-painter wave-smile-painter def-frame) 4))
+
+; c. Modify square-limit
 
 (define (square-of-four tl tr bl br) 
   (lambda (painter)

@@ -1,6 +1,6 @@
 ; Polynomial tests for 2.5.3
 
-(load-relative "test-functions.scm")
+(load-from-lib "test-functions.scm")
 
 (define show-operations false)  ; Can be set true to display testing operations
 

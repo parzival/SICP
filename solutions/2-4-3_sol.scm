@@ -1,12 +1,14 @@
 ; Section 2.4.3
 
-(load "../libraary/data_tables.rkt")
+; Modify if not using Racket; note that complex number tests are Racket-only
+(load "../library/racket/data_tables.rkt")
 
 (define operation-table (make-table))
 (define get (operation-table 'lookup-proc))
 (define put (operation-table 'insert-proc!))
 
-(load "../library/complex-num-tests.rkt")
+; Racket-only, remove if not using Racket
+(load "../library/racket/complex-num-tests.rkt")
 
 ; Arithmetic operations
 (define square sqr)
@@ -144,7 +146,7 @@
 (install-polar-package)
 
 (displayln "Testing Complex Numbers")
-(run-tests complex-tests)
+(run-tests cnumber-tests)
 
 ; Ex. 2.73.
 ; Symbolic differentiation using data-directed dispatch
@@ -245,9 +247,16 @@
 
 ; Testing
 (define (show-basic-deriv)
-  (displayln (deriv '(+ x 3) 'x))  ; 1
-  (displayln (deriv '(* x y) 'x))  ; y
-  (displayln (deriv '(* (* x y) (+ x 3)) 'x)) ; (2xy + 3y)
+  (displayln "Basic derivative results:")
+  (display "3 + x : ")
+  (display (deriv '(+ x 3) 'x))  ; 1
+  (newline)
+  (display " xy : ")
+  (display  (deriv '(* x y) 'x))  ; y
+  (newline)
+  (display " xy * (3 + x) : ")
+  (display (deriv '(* (* x y) (+ x 3)) 'x)) ; (2xy + 3y)
+  (newline)
   )
 
 (show-basic-deriv)
@@ -287,6 +296,7 @@
 
 (show-basic-deriv)
 ; Testing exponentiation
+(displayln "Derivatives with exponents:")
 (deriv '(** x 2) 'x)    ; (* 2 x)
 (deriv '(** x 3) 'x)    ; (* 3 (** x 2))
 (deriv '(** x -1) 'x)   ; (* -1 (** x -2))
@@ -294,18 +304,19 @@
 (deriv '(** x 0) 'x)    ; 0
 
 (deriv '(* x (* y (+ x 3))) 'x)  ; book example = y(x+3) + xy
+
+(displayln "Derivative of quadratic equation with respect to x, a, b, & c:")
 (define quadratic '(+ (* a (** x 2)) (* b x) c))
 (deriv quadratic 'x)  ; 2ax + b
 (deriv quadratic 'a)  ; x^2
 (deriv quadratic 'b)  ; x
 (deriv quadratic 'c)  ; 1
-(deriv '(** (+ (* 3 (** x 2)) x) 5) 'x) ; 5(6x + 1)(3x^2 + x)^4
 
-; more complex expressions
-; (x + 5)^4.  d/dx = 4(x+5)^3
-(deriv '(** (+ x 5) 4) 'x)  
-; (3x^2 + x)^5. d/dx = 5*(6x + 1)*(3x^2 +x)^4
-(deriv '(** (+ (* 3 (** x 2)) x) 5) 'x)
+(displayln "Derivatives of more complicated expressions")
+(displayln "(x + 5)^4 :")
+(deriv '(** (+ x 5) 4) 'x) ;  d/dx = 4(x+5)^3 
+(displayln "(3x^2 + x)^5 :") 
+(deriv '(** (+ (* 3 (** x 2)) x) 5) 'x) ; d/dx = 5*(6x + 1)*(3x^2 +x)^4
 
 
 ; d. If the dispatch line was rewritten to be :
@@ -369,9 +380,9 @@
 (displayln "Testing personnel records.")
 
 ; Example file
-(define scr-info '(division-info  (division-id scranton) (division-loc ((state PA) (zip 18510)))))
-(define scr-employees '((scott (2500 office-manager)) 
-                        (schrute (1200 sales)) 
+(define scr-info '(division-info  (division-id SCRA) (division-loc ((state PA) (zip 18510)))))
+(define scr-employees '((scott (2500 office-manager))
+                        (schrute (1200 sales))
                         (kapoor (2000 service-rep))
                         )
   )
@@ -388,26 +399,29 @@
     )
   )
 
-
-(put 'retrieve-record 'scranton scranton-retrieve-record)
+(put 'retrieve-record 'SCRA scranton-retrieve-record)
 
 ; Test that division-id-from-file works
 (division-id-from-file dm-file)
 
+; Testing get-record with one file
+; Get Kapoor's record
 (display "Kapoor's record from dm-file is ")
 (get-record 'kapoor dm-file)
 
-(display "Palmer's record from dm-file is ")
 ; Attempt to get a record not existing in the file
+(display "Palmer's record from dm-file is ")
 (get-record 'palmer dm-file) ; false 
 
 ; b. Implement a (get-salary) procedure that can
-; get the salary information from a given employee's 
+; get the salary information from a given employee's
 ; record.
 
 (define (get-salary employee personnel-file)
   (let ((record (get-record employee personnel-file)))
-    ((get 'retrieve-salary (division-id-from-file personnel-file)) record)
+    (if record
+        ((get 'retrieve-salary (division-id-from-file personnel-file)) record)
+        )
     )
   )
 
@@ -416,14 +430,20 @@
   )
 
 (display "Adding retrieve-salary to table ... ")
-(put 'retrieve-salary 'scranton scranton-retrieve-salary)
+(put 'retrieve-salary 'SCRA scranton-retrieve-salary)
 
 ;Testing
 
-(display "Schrute's salary is ")
+; Get Schrute's salary using get-salary
+(display "Schrute's salary is :")
 (get-salary 'schrute dm-file)
 
 
+; Show what happens for someone not found with get-salary
+(display "Unknown salary result:")
+(get-salary 'bernard dm-file)
+
+(newline)
 ; c. Implement a (find-employee-record) procedure to
 ; locate an employee in a list of files
 
@@ -441,13 +461,14 @@
 
 ;Testing
 
+; Use find-employee-record to find scott in (list dm-file)
 (display "Searching for record of Scott ... ")
 (find-employee-record 'scott (list dm-file))
 
 
 ; Adding another file
 
-(define slo-info '(division-info  (division-id slough) (division-loc 'SL1)))
+(define slo-info '(division-info (division-id ((name slough) (number 3))) (division-loc SL1)))
 
 (define slo-employee-ids '(id-nos (Brent 0) (Keenan 1) (Roper 2)))
 
@@ -497,37 +518,56 @@
   
   ; interface
   
-  (put 'retrieve-record 'slough record-retrieval)
-  (put 'retrieve-salary 'slough salary-from-record)
+  (put 'retrieve-record '((name slough) (number 3)) record-retrieval)
+  (put 'retrieve-salary '((name slough) (number 3)) salary-from-record)
   )
-
-
 
 ;Testing wh-package
 (display "Verifying wh-package install ... ")
 (install-wh-package)
 
+(displayln "Checking wh-file")
 
-(displayln "Testing wh-file")
+; Use get-record for Brent 
 (get-record 'Brent wh-file)
+
+; Use get-salary for Keenan
 (get-salary 'Keenan wh-file)
 
+; Use get-record for someone not in the file
+(get-record 'Oggy wh-file)
 
+(displayln "Searching across multiple files")
 (define offices (list wh-file dm-file))
-; Testing with multiple files
+
+ ; person is in a file
 (display "Searching for Scott ... ")
 (find-employee-record 'scott offices)
+
+; person in another file
 (display "Searching for Roper ... ")
 (find-employee-record 'Roper offices)
+
+; person not in any file
 (display "Searching for Bratton ... ")
 (find-employee-record 'Bratton offices)
 
+; Make sure get-salary works across files
+(define (find-first pred l)
+      (cond ((null? l) 'not-found)
+            ((pred (car l)) (pred (car l)))
+            (else (find-first pred (cdr l)))
+            )
+       )
 
-; Check that get-salary works
+; Find Brent's salary starting with just his name and the offices list
 (display "Brent's salary is :")
-(get-salary 'Brent wh-file)
-
+(find-first (lambda (div) (get-salary 'Brent div)) offices)
 ; Ought to be 600
+
+; Check what happens when a result is not found
+(display "Unknown salary is :")
+(find-first (lambda (div) (get-salary 'Moore div)) offices)
 
 ; d. What changes are required when taking over a new company?
 
@@ -542,6 +582,8 @@
 ; The division metadata could be stored separately if the 
 ; personnel file cannot be changed, in which case the new package
 ; would need to handle the integration of the two.
+
+(newline)
 
 ; Ex. 2.75
 ; Complex numbers using message-passing 
@@ -593,7 +635,7 @@
 (real-part n1)
 (magnitude n1)
 
-(displayln "Testing make-from-mag-ang.")
+(displayln "Verifying make-from-mag-ang.")
 (define n2 (make-from-mag-ang 3 4))
 (real-part n2)
 (imag-part n2)
@@ -601,14 +643,13 @@
 (angle n2)
 
 (newline)
-(displayln "Testing complex number operations using message passing.")
+(displayln "Testing arithmetic operations using message passing.")
 
-(run-tests numeric-tests)
+(run-all-tests 'verbose) ; Optional, requires Racket complex tests
 
-(displayln "Testing arithmetic.")
-(run-tests math-tests)
-
+(displayln "Verifying complex number arithmetic.")
 (mul-complex (make-from-real-imag 0 0) (make-from-mag-ang 1 2))
+
 ; Add 'print' to mag-ang for this to work
 (define (show-complex z) (apply-generic 'print z))
 
@@ -624,7 +665,7 @@
 (display "n1 / n2: ")
 (show-complex (div-complex n1 n2))
 (newline)
-(displayln "Testing arithmetic")
+(displayln "Re-testing arithmetic after adding show-complex")
 (run-tests math-tests)
 
 

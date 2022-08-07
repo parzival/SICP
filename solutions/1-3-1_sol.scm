@@ -1,6 +1,7 @@
 ; Section 1.3.1
 
-;(define (add1 x) (+ x 1)) 
+; Add/delete these definitions as needed
+;(define (add1 x) (+ 1 x))  ; or (define add1 1+), for example 
 
 (define square sqr)
 
@@ -68,9 +69,10 @@
 (display "Error for  n =   1000: ")
 (display error-simpson)
 (newline)
+
+; Test an integral that does not converge.
 (newline)
 (displayln "Testing non-converging integrals")
-; Testing an integral that does not converge.
 (define (one-over-x x) (/ 1.0 x))
 (integral one-over-x 0.0 1.0 (/ 1 1000))
 (integral-simpson one-over-x 0.0 1.0 1000)
@@ -86,7 +88,7 @@
 (newline)
 (displayln "Comparing iterative vs. linear recursive integral methods")
 (displayln "Recursive (original):")
-(define steps 200000)
+(define steps 200000)  ; adjust as necessary to see a difference
 (time (integral cube 0 1.0 (/ 1 steps)))  ; for comparison
 
 ; Modify the sum procedure to be iterative rather than linear recursive.
@@ -238,7 +240,7 @@
 (define (filtered-accumulate combiner filter null-value term a next b)
   (define (iter a partial)
     (if (> a b)
-        partial 
+        partial
         (if (filter a)
             (iter (next a) (combiner (term a) partial))
             (iter (next a) partial)

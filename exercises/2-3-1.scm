@@ -11,20 +11,17 @@
 ; Ex 2.53.
 ; Describe what the interpreter response is for each expression
 
-(list 'a 'b 'c)  
-
-(list (list 'george)) 
-(cdr '((x1 x2) (y1 y2))) 
-
-(cadr '((x1 x2) (y1 y2))) 
-(pair? (car '(a short list))) 
-(memq 'red '((red shoes) (blue socks))) 
-
-(memq 'red '(red shoes blue socks))     
+(list 'a 'b 'c)
+(list (list 'george))
+(cdr '((x1 x2) (y1 y2)))
+(cadr '((x1 x2) (y1 y2)))
+(pair? (car '(a short list)))
+(memq 'red '((red shoes) (blue socks)))
+(memq 'red '(red shoes blue socks))
 
 ; Ex 2.54.
 ; An equality procedure for lists
-;(define built-in-equal? equal?)  ; preserve built-in form if needed 
+;(define built-in-equal? equal?)  ; preserve built-in form if needed
 
 (define (equal? a b) false )   ; override any existing version
 
@@ -57,7 +54,6 @@
 (equal? '() '())                                        
 (equal? (cdr '(single)) '())    ; Similar, but the first empty list is the result of an expression    
 (equal? '() (list ))
-
 
 (displayln "Pairs")  ; Technically not covered by the problem statement
 (equal? (cons a c) (cons a c))     ; Pairs should be equal

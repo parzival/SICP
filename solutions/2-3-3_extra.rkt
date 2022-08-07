@@ -409,7 +409,7 @@
     )
   )
 
-(timed-results '(1 10 100 1000) 100 tree-union-test "Conversion " "Tree-only")
+(timed-results '(1 10 100 1000 3000) 100 tree-union-test "Conversion " "Tree-only")
 (timed-results '(3 30 300 3000 30000) 10 tree-intersection-test "Conversion " "Tree-only")
 
 (newline)
@@ -427,5 +427,5 @@
 (define element-of-set-1? element-of-oset?)
 (define element-of-set-2? element-of-set?)
 
-(timed-results '(1 10 100 1000 10000) 1000 compare-search-test "Ordered   " "Tree")
+(timed-results '(1 10 100 1000 10000 30000) 1000 compare-search-test "Ordered   " "Tree")
 

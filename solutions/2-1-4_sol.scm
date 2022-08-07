@@ -369,8 +369,8 @@
     )
   )
 
-(define x (random 10000))
-(define y (random 10000))
+(define x (+ 100 (random 10000)))
+(define y (+ 100 (random 10000)))
 (show-tols x 0.1 y 0.1)
 (show-tols x 0.5 y 0.5)
 (show-tols x 1 y 1)

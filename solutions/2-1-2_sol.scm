@@ -124,10 +124,10 @@
 (newline)
 (newline)
 (displayln "Testing Rectangles")
-; Create rect1 with corners at (0,0),(-4,0),(-4,7),(0,7) 
+; Create rect1: 4x7 with corners at (0,0),(-4,0),(-4,7),(0,7) 
 (define rect1 (make-rect origin pt1))
 
-; Create rect 2 with corners at (-4,7),(2,7),(2,-6),(-4,-6) 
+; Create rect2: 6x13 with corners at (-4,7),(2,7),(2,-6),(-4,-6) 
 (define rect2 (make-rect pt1 (make-point 2 -6)))
 
 ; Create rect3: 2x14 with corners at (1,12),(-1,12),(-1,-2),(1,-2) 
@@ -199,9 +199,9 @@
 (define rect2a (make-rect r2leg1 r2leg2))
 (define rect2_alta (make-rect r2leg2 r2leg1))
 (define r3orig (make-point 1 12))
-(define rect3a  (make-rect (make-segment r3orig (make-point 1 -2))
-                           (make-segment (make-point -1 12) r3orig)
-                           )
+(define rect3a (make-rect (make-segment r3orig (make-point 1 -2))
+                          (make-segment (make-point -1 12) r3orig)
+                          )
   )
 
 
@@ -209,7 +209,7 @@
 (show-rect-values rect1a) ; Area - 28, perimeter - 22
 (show-rect-values rect2a) ; Area - 78, perimeter - 38
 (show-rect-values rect2_alta) ; should be the same as rect 2
-(show-rect-values rect3a)  ; Area - 28, perimeter - 32
+(show-rect-values rect3a) ; Area - 28, perimeter - 32
 
 (displayln "Testing degenerate rectangles (point, line)")
 (define zero-seg (make-segment origin origin))
@@ -235,6 +235,7 @@
                          )
   )
 
+; Parallelogram, but not a rectangle: corners at (0,0),(-4,7),(-2, 12),(2,5)
 (define parallelo (make-rect (make-segment origin pt1) 
                              (make-segment origin pt2)
                              )

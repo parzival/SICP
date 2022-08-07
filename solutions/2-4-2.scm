@@ -1,4 +1,4 @@
-(load "../library/complex_num_tests.rkt")
+(load "../library/racket/complex-num-tests.rkt")
 
 (define square sqr)
 

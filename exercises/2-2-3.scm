@@ -1,6 +1,6 @@
-; SECTION 2.2.3
+; Section 2.2.3
 
-(define (announce phrase) 
+(define (announce phrase)
   (newline)
   (display phrase)
   (newline)
@@ -53,11 +53,11 @@
 ; using -acc due to later requirement for map in 2.37
 (define (map-acc p sequence)
   (accumulate (lambda (x y) <??>) null sequence)
-  ) 
+  )
 
 (define (append-acc seq1 seq2)
   (accumulate cons <??> <??>)
-  ) 
+  )
 
 (define (length-acc sequence)
   (accumulate <??> 0 sequence)
@@ -101,7 +101,8 @@
 (define x (cons (list 1 2) (list 3 4))) 
 (length x)
 (count-leaves x)
-(count-leaves (list x (list x)))
+(length (list x x))
+(count-leaves (list x x))
 
 
 ; Ex 2.36
@@ -194,7 +195,7 @@
   )
 
 ; Testing
-(announce "Testing revese using left and right")
+(announce "Testing reverse using left and right")
 (reverse-r 1-to-4)
 (reverse-l 1-to-4)  ; Should yield the same result
 (reverse-l list1)
@@ -273,20 +274,27 @@
 
 ; Testing 
 
-; (print-solution) is required to display a solution.  
+; (print-solution) is required to display the queen positions.  
 ; (queens) returns a sequence of solutions.
-; Only when k=0 is a list containing a null solution returned; the other
-; cases with no solution yield an empty list
+
+; Only when k=0 is a list containing an empty board returned; the other
+; cases with no solution yield an empty list. 
+
+(define (print-solution sol)
+	; define as needed
+  )
 
 (announce "Testing queens")
-(for-each print-solution (queens 0))
-(for-each print-solution (queens 1))
-(queens 2)
-(queens 3)
-(for-each print-solution (queens 4)) ; First case with an interesting solution
-(for-each print-solution (queens 5))
-(for-each print-solution (queens 6))
-(for-each print-solution (queens 8))
+(for-each (lambda (k)
+            (display "k=")
+            (display k)
+            (display ": ")
+            (for-each print-solution (queens k))
+            (newline)
+            )
+          (list 0 1 2 3 4 5 6 7)
+          )
+
 (length (queens 8))
 (length (queens 9))
 ;(length (queens 12))
@@ -330,7 +338,6 @@
     )
   (queen-cols board-size)
   )
-
 
 ; Explain why Louis's version of queens runs so slowly. Estimate the time it will take to complete if the
 ; program in 2.42 finishes in time T.

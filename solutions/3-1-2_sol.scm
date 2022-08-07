@@ -1,5 +1,36 @@
 ; Section 3.1.2.
 
+; Both MIT and Chicken (or any non-Racket) will need some or all of these defined:
+
+;      (define (displayln s)
+;        (display s)
+;        (newline)
+;        )
+
+; (define (allnull? ln)
+;  (cond 
+;     ((null? ln) #t)
+;	 ((null? (car ln)) (allnull? (cdr ln)))
+;	 (else #f)
+; )
+;)
+
+;  (define (andmap p . ll )
+;    (cond 
+;      ((allnull? ll) 
+;	    #t
+;	    )
+;	  ((apply p (map car ll)) ; true case
+;	    (apply andmap (cons p (map cdr ll)))
+;		)
+;       (else #f)
+;     )
+;   )
+
+;      (define (sqr x) (expt x 2))
+
+;      (define pi 3.141592653589793)
+
 ; Ex 3.5.
 ; Monte Carlo integration
 
@@ -59,7 +90,7 @@
     )
   )
 
-; Use (set! showerror true) [or false] to enable/disable display of percentage error
+; Use (set! showerror true) [or false] to enable [disable] display of percentage error
 (define showerror false)
 
 ; Triangle is a region bounded by y < 6x.  Test rectangle corners are (0,0) and (1,6)
@@ -92,9 +123,6 @@
      )
   )
 
-(define (pi-test trials)
-  (monte-carlo-test trials pi-estimate pi) ; pi is built-in constant
-  )
 
 
 ; Unit circle
@@ -110,6 +138,10 @@
 
 (displayln "Estimating pi using unit circle")
 
+(define (pi-test trials)
+  (monte-carlo-test trials pi-estimate pi)
+  )
+
 (for-each pi-test '(100 1000 10000))
 (set! showerror true)
 (pi-test 100000)
@@ -123,6 +155,7 @@
 (set! yupper  10.0)
 
 (displayln "Estimating pi using unit circle (large bounding box)")
+
 (for-each pi-test '(100 1000 10000))
 (set! showerror true)
 (pi-test 100000)
@@ -131,7 +164,7 @@
 ; Optional:
 ; Use circle defined in book: Center at (5,7), radius of 3
 
-(displayln "Estimating pi using different circle (tight bounding box)")
+(displayln "Estimating pi using a different circle (tight bounding box)")
 (set! xc 5.0)
 (set! yc 7.0) 
 (set! r_squared (* 3.0 3.0))
@@ -153,8 +186,8 @@
 ; Method 1: Using an LCG and a make-prng procedure.
 
 ; The LCG is of the form  a*x + c modulo m 
-; If the values used for a and b match the following conditions, the sequence will cover all numbers less than m without repeating: 
-; 1. m and b are relatively prime.
+; If the values used for a and c match the following conditions, the sequence will cover all numbers less than m without repeating: 
+; 1. m and c are relatively prime.
 ; 2. (a-1) is divisible by all prime factors of m.
 ; 3. (a-1) is divisible by 4 if m is divisible by 4.
 
@@ -240,6 +273,7 @@
 
 
 ; Method 2: Built-in procedures, external variable
+; This is Racket/PB-only
 
 (newline)
 (displayln "Random reset using PRNG")

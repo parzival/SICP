@@ -1,13 +1,13 @@
 ; Section 2.5.2
 
 ;;;; START of Scheme-specific options
-;;;; Depending on which system you're using these will need changing.
+;;;; Depending on which system you're using these will need changing. 
 
-; Racket (or any that uses relative pathing)  
+(define lib-path "../library/") ;relative or absolute path
 
-(define lib-path "library/") ; relative path
-;(require racket/mpair)  ; Possibly this file is needed when running the debugger in Racket?
-
+(define (load-from-lib file)
+  (load (string-append lib-path file))
+  )
 
 ; MIT Scheme ; 
 ;
@@ -20,18 +20,15 @@
 
 ; Both MIT and Chicken (or any non-Racket) will need some or all of these defined:
 
-; (define lib-path "/Users/username/sicp/library") ; Replace with actual path to library directory
- 
-
 ;      (define (displayln s)
 ;        (display s)
 ;        (newline)
 ;        )
 
-;      (define (andmap p l)
-;        (cond ((null? l) #t)
-;          ((p (car l)) (andmap p (cdr l)))
-;          (else #f)
+;      (define (andmap pred l)
+;        (cond ((null? l) true)
+;          ((pred (car l)) (andmap pred (cdr l)))
+;          (else false)
 ;          )
 ;        )
 
@@ -46,12 +43,13 @@
 ;            )
 ;        )
 
+; Load library files; different Scheme implementations may need to change files loaded by
+; these (data-tables and test-functions).
+
+(load-from-lib "gen-arith_252.scm")
+(load-from-lib "gen-arith-tests_v2.scm")
+
 ;;;; END of Scheme-specific options
-
-; Load library files
-
-(load (string-append lib-path "gen-arith252.scm"))
-(load (string-append lib-path "gen-arith-tests_v2.scm"))
 
 
 ; Pre-test to ensure old system is loaded and working (optional)
@@ -387,7 +385,7 @@
 
 ; Define generic raise.  
 
-(define (raise x) 
+(define (raise x)
   (let ((proc (get 'raise (type-tag x)))
         )
     (if proc
@@ -806,6 +804,7 @@
 
 
 ; Test basic operations still work
+(newline)
 (displayln "Testing basic operation")
 (run-tower-arith-tests)
 

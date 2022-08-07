@@ -1,16 +1,28 @@
 ; Section 2.5.3
 
 ; Required table operations and arithmetic package
-;(require racket/mpair)  ; May be required for the debugger
 
-(load "library/gen-arith.scm")           ; Give location of your previously defined arithmetic file.
-(load "library/gen-arith-tests_v2.scm")  ; Note that only tower types are defined; scheme-number tests should not be run.
-(load "library/poly-tests.scm")          ; Polynomial tests
+(define (load-from-lib f)
+  (load (string-append lib-path f))
+  )
+
+(define lib-path "../library/") ; define as needed to point to library files
+
+; Racket/PB only
+;(require racket/mpair)  ; May be required for the debugger 
+
+; Test files
+(load-from-lib "gen-arith-tests_v2.scm")  ; Note that only tower types are defined; scheme-number tests should not be run.
+(load-from-lib "poly-tests.scm")          ; Polynomial tests
+
+; Previous (final) arithmetic package 
+;(load-from-lib "gen-arith.scm")           ; Replace with location of your previously defined arithmetic file (from 2.5.2)
 
 ; Display a testing/informational message
 (define (header msg)
   (newline)
-  (displayln msg)
+  (display msg)
+  (newline)
   )
 
 ;(header "Testing Base Arithmetic System")
@@ -322,13 +334,17 @@
 ; A sketch of the approach is shown below.  Again, this function should be defined inside an 'install' or 'update' package.
 
 ;(define (equal-terms? tl1 tl2)
+; (cond
   ; if either list is empty, check that the rest of the other is empty or zero
   ;
   ; if the leading coefficient in one list is zero, it can be skipped (the other list does not require a matching term)
   ;
   ; otherwise compare the terms
   ;
-;  false
+  ; or return not-equal
+;  (else 
+;   false
+;   )
 ;  )
 
 

@@ -1,11 +1,22 @@
 ; Section 2.5.1
 
+(define (load-from-lib file)
+  (load (string-append lib-path file))
+  )
+(define lib-path "../library/") ; set library directory as needed
+
 ; Table operations
-(load "library/data_tables.rkt")
 
-;(require trace) ; Used for 2.77
+; Racket/PB only
+(load-from-lib "racket/data-tables.rkt")
+;(require trace) ; Used for 2.77 - Note: Do not load gen-arith-tests if using trace
 
-(load "library/gen-arith-tests_v1.scm")  ; comment out if using trace
+; Other Scheme implementations
+;(load-from-lib "data-tables.scm")
+
+
+; NOTE: Depending on Scheme implementation, editing test-functions.scm may be required
+(load-from-lib "gen-arith-tests_v1.scm")
 
 (define operation-table (make-table))
 (define get (operation-table 'lookup-proc))
@@ -317,6 +328,7 @@
 
 (magnitude z)
 
+; Note: Trace line numbers are from original file and may not match the ones in this file, as it has been slightly reformatted.
 ; Results of trace:
 ;     Procedure                        Arguments
 ;(.../2-5-1.scm:208:9 magnitude>      (complex rectangular 3 . 4))
@@ -392,7 +404,7 @@
   )
 
 (displayln "Adding equ? to package")
-; Ordinary numbers
+; Ordinary/Scheme numbers
 (put 'equ? '(scheme-number scheme-number)
      (lambda (a b)  (close-enough? a b))
      )
@@ -437,21 +449,18 @@
 
 ; Comment out to prevent error
 ;(displayln "Without testing:")
-;(check-equ? s_2 2) ; this does work
-;(check-equ? 2 r2-1) ; this causes an error and exits - no method for these types
+;(check-equ s_2 2) ; this should pass (using previous modification to the system). 
+;(check-equ 2 r2-1) ; this causes an error and exits - no method for these types
 
 ; Using test functions to handle errors
 (displayln "Using testing:")
 (test-equ (lambda () s_2) 2 "package Scheme numbers are equal to literal Scheme numbers")
-(test-equ (lambda () r2-1) 2 "rational number is equal to literal Scheme number")  ; error, but no exit
+(test-equ (lambda () r2-1) 2 "package rational number is equal to literal Scheme number")  ; error, but no exit
 
 ; Results that depend on how equ? is defined :
 
-(display "Checking rationals with non-reduced terms are equal:")
-(check-equ r2-3 (make-rational 16 24))
-
-(display "Complex rectangular and polar values equal:")
-(check-equ (make-complex-from-real-imag -3 0) (make-complex-from-mag-ang 3 (- pi)))  ; pi is system-defined
+(test-equ (lambda () r2-3) (make-rational 16 24) "Rationals with non-reduced terms are equal")
+(test-equ (lambda () (make-complex-from-real-imag -3 0)) (make-complex-from-mag-ang 3 (- pi)) "Complex rectangular and polar values are equal")  ; pi is system-defined
 
 ; Testing equality after operations
 (newline)
@@ -499,7 +508,7 @@
 (displayln "Testing equ? and =zero?") 
 (logical-operator-tests)
 
-; Final tests for arithmetic; see included file 
+; Extra tests for arithmetic; see included file 
 (newline)
 (displayln "Running additional tests on arithmetic")
 (scheme-number-arith-tests)

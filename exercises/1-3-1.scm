@@ -1,6 +1,7 @@
 ; Section 1.3.1
 
-;(define (add1 x) (+ x 1)) 
+; Add/delete these definitions as needed
+;(define (add1 x) (+ 1 x))  ; or (define add1 1+), for example 
 
 (define square sqr)
 
@@ -32,18 +33,29 @@
 (displayln "Trapezoid Rule Results:")
 (integral cube 0.0 1.0 (/ 1 100))
 (integral cube 0.0 1.0 (/ 1 1000))
+(define error-trapezoid (abs (- 0.25 (integral cube 0.0 1.0 (/ 1 1000)))))
+(display "Error for dx = 1/1000: ")
+(display error-trapezoid)
+(newline)
+(newline)
 (displayln "Simpson's Rule Results:")
 (<?simpson?> cube 0.0 1.0 100)
 (<?simpson?> cube 0.0 1.0 1000)
+(define error-simpson (abs (- 0.25 (<?simpson?> cube 0.0 1.0 1000))))
+(display "Error for  n =   1000: ")
+(display error-simpson)
+(newline)
 
 ; Test an integral that does not converge.
+(newline)
+(displayln "Testing non-converging integrals")
 (define (one-over-x x) (/ 1.0 x))
 (integral one-over-x 0.0 1.0 (/ 1 1000))
 (<?simpson?> one-over-x 0.0 1.0 1000)
 
 (define (one-over-one-plus-x x) (/ 1.0 (+ x 1.0)))
-(<?simpson?> one-over-one-plus-x  2.0 3.0 10)  ; 0.287682 (test a region that does converge)
-(<?simpson?> one-over-one-plus-x  -1.5 -0.4 100) ; (does not converge)
+(<?simpson?> one-over-one-plus-x  2.0 3.0 10)  ; 0.287682 (does converge in this region)
+(<?simpson?> one-over-one-plus-x  -1.5 -0.4 100) ; does not converge
 
 ; Ex 1.30
 ; Iterative summing 
@@ -51,7 +63,7 @@
 (newline)
 (displayln "Comparing iterative vs. linear recursive integral methods")
 (displayln "Recursive (original):")
-(define steps 200000)
+(define steps 200000)  ; adjust as necessary to see a difference
 (time (integral cube 0 1.0 (/ 1 steps)))  ; for comparison
 
 ; Modify the sum procedure to be iterative rather than linear recursive.
@@ -132,7 +144,7 @@
   (displayln (sum identity 1 add1 10)) ; 55
   (displayln (product identity 3 add1 5)) ; 60  
   (displayln (integral square 0 1 (/ 1 1000))) ; 0.333...
-  (displayln (factorial 100)) ; rathr number, starts with 9333262154...
+  (displayln (factorial 100)) ; rather big number, starts with 9333262154...
 )
 
 (test-accumulate)

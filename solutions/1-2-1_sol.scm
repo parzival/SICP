@@ -3,7 +3,8 @@
 ; Ex 1.9. 
 ; Iterative and Recursive Substitution
 
-(define (inc x) (add1 x))
+; Racket(Pretty Big)-specific - use other forms, e.g. 1+ / -1+ instead of add/sub1 for MIT Scheme
+(define (inc x) (add1 x)) 
 (define (dec x) (sub1 x))
 
 ; Show the substitution process for these two implementations of + when evaluating (+ 4 5). 
@@ -91,7 +92,7 @@
 (g 4) ; 16
 (h 4) ; 2^2^2^2 = 2^16 = 65536
 
-(k 5) ; 625
+(k 5) ; 125
 (f 5) ; 10
 (g 5) ; 32
 ;(h 5) ; 2^2^2^2^2, or 2^65536, a rather large number  

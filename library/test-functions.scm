@@ -4,13 +4,64 @@
 ;;;; Depending on which system you're using these will need changing.
 
 ; Racket/Pretty Big only
-(load-relative "racket/exn_handler.rkt") 
+(load-relative "racket/exn-handler.rkt") 
+
+; Racket's R5RS only
+;(load-from-lib "racket/exn-handler_r5rs.scm"))
 
 ; MIT Scheme only
-;(load (string-append lib-path "mit-scheme/exn_handler.scm"))
+;(load-from-lib "mit-scheme/exn-handler.scm"))
 
 ; R7RS Scheme (e.g. Chicken)
-;(load (string-append lib-path "exn_handler.scm"))
+;(load-from-lib "exn-handler.scm"))
+
+; For non-Racket Schemes, may need to define these:
+; andmap 
+;
+;;  (define (andmap pred l)
+;      (cond ((null? l) true)
+;            ((pred (car l)) (andmap pred (cdr l)))
+;            (else false)
+;            )
+;       )
+
+; format
+;
+; For MIT-Scheme:
+; format must be loaded as an option, and requires an additional 'destination'
+; argument, which should be false for these calls since they go to strings. The 
+; following will redefine it to work as it does in Racket.
+; Add these lines :
+; (load-option 'format)
+; (define format-mit format)
+; (unbind-variable (the-environment) 'format)
+; (define (format s . args) (apply format-mit (cons false (cons s args)))) 
+;
+;
+; If format is not defined, replace 'format' statements with a fold/accumulate of string-appends,
+; although a specialized function may be needed to convert Scheme expressions to strings for each
+; type being tested.
+; 
+; e.g. for numeric tests, in place of (format ...) use:
+; (fold (lambda (s acc) (string-append s acc)) "FAILURE: "
+;                      (list (num->string observed)
+;                            " is not equ? to "
+;                            (num->string expected)
+;                            "."
+;                            )
+;         )
+;
+; An alternate method, less pretty, is to define format as follows (which does not actually
+; format the string but doesn't require changing the definitions)
+; It will produce an output like "~a is not equ? to ~a., 0, 6" to show 0 is not equal to 6.
+;
+; (define (format . args)
+;    (fold (lambda (s acc) (string-append acc "," s))
+;          (car args)
+;          (map num->string (cdr args))
+;          ) 
+;    )
+
 
 ;;;; END of Scheme-specific options
 
@@ -19,6 +70,7 @@
 
 
 ; All these are checks for FAILURE, which means they return false when the test passes
+; Note also these are intentionally written in varying style
 
 (define (fails-true? x) (not (true? x)))
 (define (fails-false? x) (not (false? x)))
@@ -40,7 +92,7 @@
 (define (fails-equal? observed expected )
   (if (equal? expected observed)
       false
-      (format "Equality FAILED. Results were ; ~a ." observed) ; DBG change to :
+      (format "Equality test FAILED. Results were : ~a ." observed) 
       )
   )
 
@@ -61,7 +113,7 @@
   (with-handler exn-expected-handler
     (lambda ()
       (proc)
-      (format "Error expected but did not occur.") ; No error, return the failure
+      (format "Error/exception expected but did not occur.") ; No error, return the failure
       )
     )
   )
@@ -82,13 +134,6 @@
 
 ; 'Tests' - error safe
 
-
-; The handler displays the error
-(define (exc-display exn)
-  (display "ERROR: ")
-  (display (exception-message exn))
-  (display "-")
-  )
 
 (define (exec-test test-predicate expression-under-test other-args testname)
   (with-handler
@@ -115,6 +160,12 @@
    (newline) 
   )
 
+  ; This handler just displays the error
+(define (exc-display exn)
+  (display "ERROR: ")
+  (display (exception-message exn))
+  (display "-")
+  )
 
 ; The way these tests work is that they return false if they *pass*.
 ; This allows the value returned for failure to be a message (see def'n of true? above)

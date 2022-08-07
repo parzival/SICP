@@ -144,7 +144,7 @@
   
   (define (dispatch pass m)
     (if (not (eq? pass password))
-        (lambda (x) "Incorrect password")
+        (lambda (x) 'incorrect-password )
         (cond ((eq? m 'withdraw) withdraw)
               ((eq? m 'deposit) deposit)
               (else (error "Unknown request -- MAKE-ACCOUNT" m)
@@ -170,7 +170,7 @@
 (displayln "Testing account operation with password")
 (check-eqv? ((acc 'secret-password 'deposit) 20) 80 "Deposits can be made with the password")
 (check-eqv? ((acc 'secret-password 'withdraw) 20) 60 "Withdrawals can be made with the password")
-(check-eqv? ((acc 'some-other-password 'withdraw) 50) "Incorrect password" "Incorrect password returns a complaint") ; This specific return value is not necessarily a requirement
+(check-eqv? ((acc 'some-other-password 'withdraw) 50) 'incorrect-password "Incorrect password returns a complaint") ; This specific return value is not necessarily a requirement
 (check-eqv? ((acc 'secret-password 'deposit) 0) 60 "Invalid access does not change the account value") ; Relies on previous tests
 
 
@@ -225,7 +225,6 @@
 (define (call-the-cops)
   (displayln "Remain where you are.  The police will arrive shortly to arrest you.")
   )
-
 
 ; Testing
 (newline)

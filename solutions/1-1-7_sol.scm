@@ -113,10 +113,10 @@
 (sqrt-new 1e140)
 (sqrt 1e140)
 (newline)
-; A few extra tests
-(sqrt 0)
-(sqrt 64e310)
-(sqrt-old 0)      ; succeeds, but wrong
+; A few extra tests; may not work in all interpreters
+;(sqrt 0)
+;(sqrt 64e310)
+;(sqrt-old 0)      ; may-succeed, but is wrong
 ; (sqrt-new 0)      ; FAILS
 ; (sqrt-new 64e310) ; FAILS 
 (newline)

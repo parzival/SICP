@@ -36,7 +36,7 @@
 (define seg_0_pt1 (make-segment origin pt1))
 (define seg_pt1_pt2 (make-segment pt1 pt2))
 (define seg_pt2_pt3 (make-segment pt2 pt3))
-(define seg_zero_len (make-segement pt2 pt2))
+(define seg_zero_len (make-segment pt2 pt2))
 
 (print-point (midpoint-segment seg_0_pt1)) ; (-2,3.5)
 (print-point (midpoint-segment seg_pt1_pt2)) ; (-1,6) - off-origin segment
@@ -64,7 +64,7 @@
 
 (newline)
 (newline)
-(displayln "Testing rectangles")
+(displayln "Testing Rectangles")
 ; Create rect1: 4x7 with corners at (0,0),(-4,0),(-4,7),(0,7) 
 
 ; Create rect2: 6x13 with corners at (-4,7),(2,7),(2,-6),(-4,-6) 
@@ -74,16 +74,11 @@
 ; Measure the area and perimeter 
 (show-rect-values rect1) ; Area - 28, perimeter - 22
 (show-rect-values rect2) ; Area - 78, perimeter - 38
-(show-rect-values rect3) ; Area - 28, perimeter - 32 
+(show-rect-values rect3) ; Area - 28, perimeter - 32
 
 ; Does the order of arguments to the constructor matter?
 
 ; Does the constructor allow a degenerate rectangle (i.e. zero-length sides)?
-
-; Does the implementation allow for rectangles like the following?
-; Create rect5: 4.24x4.24 with corners at (3,0),(0,3),(-3,0),(0,-3) ; Area 18, perimeter ~17 (12 * sqrt 2)
-
-; Create rect6: 10x5 with corners at (0,0),(8,6), (5,10), (-3,4) ; Area 50, perimeter 30
 
 
 ; Alternate implementation
@@ -104,4 +99,10 @@
 
 ; As before - does the constructor allow a degenerate rectangle (e.g. zero-length sides), and can the arguments be re-ordered?
 
+; Rectangle not aligned to 90 degrees.
+
+; Does either implementation allow for rectangles like the following?
+; Create rect5: square with corners at (3,0),(0,3),(-3,0),(0,-3) ; Area 18, perimeter ~17 (12 * sqrt 2)
+
+; Create rect6: 10x5 with corners at (0,0),(8,6), (5,10), (-3,4) ; Area 50, perimeter 30
 

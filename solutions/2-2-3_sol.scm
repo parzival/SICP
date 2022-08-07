@@ -1,6 +1,6 @@
 ; Section 2.2.3
 
-(define (announce phrase) 
+(define (announce phrase)
   (newline)
   (display phrase)
   (newline)
@@ -80,7 +80,8 @@
                 (+ this-coeff (* x higher-terms))
                 )
               0
-              coefficient-sequence)
+              coefficient-sequence
+              )
   )
 
 ; Testing
@@ -109,7 +110,7 @@
 (length x)
 (count-leaves x)
 (length (list x x))
-(count-leaves (list x (list x)))
+(count-leaves (list x x))
 
 
 ; Ex 2.36
@@ -224,7 +225,6 @@
 
 (define (prime? n) (= n (smallest-divisor n)))
 
-
 (define (flatmap proc seq) (accumulate append null (map proc seq)))
 
 (define (make-pair-sum pair) (list (car pair) (cadr pair) (+ (car pair) (cadr pair))))
@@ -257,11 +257,11 @@
 ; Write a procedure to generate the set of distinct ordered triples < n that sum to a given value s
 
 (define (unique-triples n)
-  (flatmap (lambda(i) 
-             (map (lambda(j) 
+  (flatmap (lambda(i)
+             (map (lambda(j)
                     (cons i j)
                     )
-                  (unique-pairs (- i 1)) 
+                  (unique-pairs (- i 1))
                   )
              )
            (enumerate-interval 1 n)
@@ -278,17 +278,18 @@
   )
 
 (announce "Testing triples")
-(sum-triples 6 9)    ; 3 triples
-(sum-triples 9 57)   ; none 
-(sum-triples 3 6)    ; 1 triple (1,2,3)
-(sum-triples 10 14)  ; 9 triples
-(sum-triples 2 2)    ; none - no triples exist for n <= 2
-(sum-triples -5 1)   ; none - n need not be positive.
-(sum-triples 20 -1)  ; none - s need not be positive.
-(sum-triples 5 -10)  ; none - i,j,k must be positive.
-
+;             n   s
+(sum-triples  6   9   ); 3 triples
+(sum-triples  9  57   ); none 
+(sum-triples  3   6   ); 1 triple (1,2,3)
+(sum-triples 10  14   ); 9 triples
+(sum-triples  2   2   ); none - no triples exist for n <= 2
+(sum-triples -5   1   ); none - n need not be positive.
+(sum-triples 20  -1   ); none - s need not be positive.
+(sum-triples  5 -10   ); none - i,j,k must be positive
 ; Ex 2.42
 ; Complete the necessary definitions in order to solve the queens puzzle
+
 (define (queens board-size) 
   (define (queen-cols k)
     (if (= k 0) 
@@ -342,7 +343,7 @@
         (let ((this-square (car positions)))
           (cond
             ((and (= (file this-square) (file check-square)) (= (rank this-square) (rank check-square)))
-                  (check-position check-square (cdr positions)) ; Don't check this square
+                  (check-position check-square (cdr positions)) ; Skip checking this square
                   ) 
             ((= (file this-square) (file check-square)) false)
             ((= (rank this-square) (rank check-square)) false)
@@ -363,34 +364,37 @@
 
 ; Testing 
 
-; (print-solution) is required to display a position.  (queens)
-; returns a sequence of solutions.
+; (print-solution) is required to display the queen positions.  
+; (queens) returns a sequence of solutions.
 (define (print-solution sol)
   (for-each (lambda(s) 
               (print-square s)
               (display ",")
               )
             sol)
-  (if (empty? sol)
-      (display "No solutions")
+  (if (null? sol)
+      (display "Empty")
       )
   (newline)
   )
 
 (announce "Testing queens")
-(for-each print-solution (queens 0))
-(for-each print-solution (queens 1))
-(for-each print-solution (queens 2))
-(for-each print-solution (queens 3))
-(for-each print-solution (queens 4)) ; First case with an interesting solution
-(for-each print-solution (queens 5))
-(for-each print-solution (queens 6))
-(for-each print-solution (queens 8))
+(for-each (lambda (k)
+            (display "k=")
+            (display k)
+            (display ": ")
+            (for-each print-solution (queens k))
+            (newline)
+            )
+          (list 0 1 2 3 4 5 6 7)
+          )
+
 (length (queens 8))
 ;(length (queens 9))
 ;(length (queens 12))
 
 ; Number of solutions for a given board size
+;0                       0
 ;1                       1               
 ;2                       0             
 ;3                       0             
@@ -407,7 +411,6 @@
 ;14                365,596            
 ;15              2,279,184            
 ;16             14,772,512 
-
 
 ; Ex 2.43
 (define call-count 0)
@@ -499,7 +502,7 @@
 ;(display   "     7         (louis-queens):   ")
 ;(time (void (louis-queens 7)))
 
-(define (louis-queens board-size)
+(define (louis-queensc board-size)
   (define (queen-cols k)
     (set! call-count (add1 call-count)) ; added for monitoring
     (if (= k 0) 

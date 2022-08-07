@@ -18,7 +18,6 @@
   )
 
 ; Table procedures (from Ch 2-support.scm)
-; Modified to use mutable pairs
 
 (define (make-table)
   (let ((local-table (list '*table*)))

@@ -1,9 +1,22 @@
 ; Section 2.5.1
 
-; Table operations
-(load "library/data_tables.rkt")
+(define (load-from-lib file)
+  (load (string-append lib-path file))
+  )
+(define lib-path "../library/") ; set library directory as needed
 
-(load "library/gen-arith-tests_v1.scm")  ; Tests to be used at end
+; Table operations
+
+; Racket/PB only
+(load-from-lib "racket/data-tables.rkt")
+;(require trace) ; Used for 2.77 - Note: Do not load gen-arith-tests if using trace
+
+; Other Scheme implementations
+;(load-from-lib "data-tables.scm")
+
+
+; NOTE: Depending on Scheme implementation, editing test-functions.scm may be required
+(load-from-lib "gen-arith-tests_v1.scm")
 
 (define operation-table (make-table))
 (define get (operation-table 'lookup-proc))
@@ -372,15 +385,12 @@
 ; Using test functions to handle errors
 (displayln "Using testing:")
 (test-equ (lambda () s_2) 2 "package Scheme numbers are equal to literal Scheme numbers")
-(test-equ (lambda () r2-1) 2 "rational number is equal to literal Scheme number")  ; error, but no exit
+(test-equ (lambda () r2-1) 2 "package rational number is equal to literal Scheme number")  ; error, but no exit
 
 ; Results that depend on how equ? is defined :
 
-(display "Checking rationals with non-reduced terms are equal:")
-(check-equ r2-3 (make-rational 16 24))
-
-(display "Complex rectangular and polar values equal:")
-(check-equ (make-complex-from-real-imag -3 0) (make-complex-from-mag-ang 3 (- pi)))  ; pi is system-defined
+(test-equ (lambda () r2-3) (make-rational 16 24) "Rationals with non-reduced terms are equal")
+(test-equ (lambda () (make-complex-from-real-imag -3 0)) (make-complex-from-mag-ang 3 (- pi)) "Complex rectangular and polar values are equal")  ; pi is system-defined
 
 ; Testing equality after operations
 (newline)
@@ -389,7 +399,7 @@
 (equ? (make-rational 9 12) (add r2-3 r1-12))
 (equ? (make-complex-from-real-imag -1 0) (sub c3-4 c4-4))
 
-; Some of these tests will error, since =zero? isn't defined yet
+; Some of these tests will have an error, since =zero? isn't defined yet
 (logical-operator-tests)
 
 (newline)
@@ -398,7 +408,7 @@
 ; Adding a (zero?) operation
 
 ; Add a =zero? operator to the arithmetic package
-; Must work for ordinary, rational, and complex numbers
+; Must work for ordinary (Scheme), rational, and complex numbers
 
 (displayln "Testing equ? and =zero?") 
 (logical-operator-tests)

@@ -6,12 +6,12 @@
   (newline)
   )
 
-; required for Racket
+; required for Racket/PB
 (define nil null) 
 (define square sqr)
 
 ; Defined this section
-(define (length items) 
+(define (length items)
   (define (length-iter a count)
     (if (null? a) count
         (length-iter (cdr a) (+ 1 count))
@@ -87,7 +87,7 @@
 
 (define (cc amount coin-values) 
     (cond ((= amount 0) 1)
-        ((or (< amount 0) (no-more? coin-values)) 0) 
+        ((or (< amount 0) (no-more? coin-values)) 0)
         (else (+ (cc amount (except-first-denomination coin-values))
                  (cc (- amount (first-denomination coin-values)) coin-values)
                  )
@@ -104,9 +104,9 @@
 ; Testing
 (header "Testing revised change counting")
 ; These should be true
-(= 292 (cc 100 us-coins))  
-(= 6149 (cc 50 uk-coins))   
- 
+(= 292 (cc 100 us-coins))
+(= 6149 (cc 50 uk-coins))
+
 ; Does the list ordering of coin-values matter for these routines?
 ; The order of the coins does not matter for the result of this routine.  Every combination will eventually be worked out by excluding one denomination at a time.  However, ordering from largest to smallest reduces the time required for this procedure, by having fewer branches at the top of the tree.  This results in fewer checks of false solutions.
 
@@ -180,11 +180,11 @@
 ; Explain what is wrong with these implementations
 
 ; faulty
-(define (square-list items) 
+(define (square-list items)
   (define (iter things answer)
-    (if (null? things) 
+    (if (null? things)
         answer
-        (iter (cdr things) 
+        (iter (cdr things)
               (cons (square (car things))
                     answer
                     )
@@ -200,12 +200,12 @@
 ; The call to cons places answer at the end of the list, putting the earlier items later in the list.
 
 ; also faulty
-(define (square-list items) 
+(define (square-list items)
   (define (iter things answer)
-    (if (null? things) 
+    (if (null? things)
         answer
-        (iter (cdr things) 
-              (cons answer 
+        (iter (cdr things)
+              (cons answer
                     (square (car things))
                     )
               )
@@ -268,10 +268,10 @@
 (displayln "Using for-each to indicate different results:")
 (for-each (lambda (x) 
             (display x) 
-            (display (if (< x 4) " is " " is not ")) 
+            (display (if (< x 4) " is " " is not "))
             (display "less than 4.")
             (newline)
-            ) 
+            )
           (list 2 6 7 -3 0 4 23 9 5 1)
           )
 

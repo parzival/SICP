@@ -6,10 +6,10 @@
 ; Table operations
 
 ; Racket/PB
-(load-relative "data_tables.rkt")
+(load-relative "racket/data-tables.rkt")
 
 ; Other Scheme
-;(load (append-string lib-path "data_tables.scm")
+;(load (string-append lib-path "data-tables.scm"))
       
 ; Create our operations table
 
@@ -25,7 +25,7 @@
 ; (Note: processing time may be increased when this is set to true).
 
 ; Type precedence used for generic ordering. Any type without a precedence will be considered 
-; to be of the highest type (unraisable).
+; to be of the highest type (unraisable or droppable).
 (define (precedence type)
   (let ((prec (get 'precedence type))
         )
@@ -87,11 +87,8 @@
         )
     )
   
-  (raise-last args '() 
-              '() 
-              'null-type 
-              ) 
-  )
+  (raise-last args '() '() 'null-type) 
+    )
   
 (define (apply-generic op . args)
   ; repeat, attempting to raise args if possible

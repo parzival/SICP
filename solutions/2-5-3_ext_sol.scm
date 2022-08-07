@@ -1,22 +1,10 @@
 ; Section 2.5.3 (extended exercise)
 
-; Required generic arithmetic package from previous exercises,
-; with polynomial division defined
-
-(load "library/gen-arith.scm")           ; Give location of your previously defined arithmetic file.
-(load "library/gen-arith-tests_v2.scm")  ; Note that only tower types are defined; scheme-number tests should not be run.
-(load "library/poly-tests.scm")          ; Polynomial tests
-
-
-;(run-tower-arith-tests) ; optional check to ensure all files are loaded correctly
-
-(define (header msg)
-  (newline)
-  (display msg)
-  (newline)
-  )
 
 (load "2-5-3_sol.scm") ; load previous exercises, with their polynomial system
+
+
+(run-tower-arith-tests) ; optional check to ensure all files are loaded correctly
 
 (header "========================== START OF EXTENDED EXERCISE ==========================")
 ;(require trace)  - can be useful for debugging/answering 2.95
@@ -368,13 +356,13 @@
 (test-equ (lambda () (greatest-common-divisor p1 p2)) expected-result "Polynomials")
 (test-equ (lambda () (greatest-common-divisor (make-rational 200 5) (make-rational 64 4))) (make-integer 8) "Rationals")
 
-; Unspecified results
+; Unspecified results - may result in errors
 (display "Scheme integers: ")
 (greatest-common-divisor 90 54)  ; 18 (if scheme-numbers are allowed)
-(display "Non-integer rationals: ")
-(greatest-common-divisor (make-rational 221 11) (make-rational 169 22)) ; 13/22 is a possible answer, but non-integer
-(display "Reals: ")
-(greatest-common-divisor (make-real 50.5) (make-real 2.25))  ; 0.25 is a possible answer, but non-integer 
+;(display "Non-integer rationals: ")
+;(greatest-common-divisor (make-rational 221 11) (make-rational 169 22)) ; 13/22 is a possible answer, but non-integer
+;(display "Reals: ")
+;(greatest-common-divisor (make-real 50.5) (make-real 2.25))  ; 0.25 is a possible answer, but non-integer 
 ; no specified value
 
 ; Ex 2.95.
@@ -396,7 +384,6 @@
 (displayln "GCD of q1 and q2 (failure expected):")
 (test-equ (lambda () (greatest-common-divisor q1 q2)) p1)
 (greatest-common-divisor q1 q2)
-
 
 ; Explain the result
 ; The division of the first term leads to a rational coefficient.  Since rationals are not reduced, the fractional terms increase in size at every step, and this never gets divided out.  The resulting coefficients in the gcd are scaled by a rational value from the 'correct' form.
@@ -1272,10 +1259,13 @@
 (add (make-integer 5) p1)
 (display "7.4 + p1 = ")
 (add p1 (make-real 7.4))
-(display "3 * p2 =")
+(display "3 * p2 = ")
 (mul (make-integer 3) p2)
 (display "p2 * 0.25 = ")
 (mul p2 (make-real 0.25))
-
-;(add rf1 (make-integer 11)) ; Results in raising error
+(display "rf1 is: ")
+(display rf1)
+(newline)
+(display "rf1 + 9 = ")
 (add (make-integer 9) rf1) ; Correct, but not properly reduced results
+;(add rf1 (make-integer 11)) ; Results in raising error

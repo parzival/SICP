@@ -137,7 +137,3 @@
 (print-rat (add-rat (make-rat 1 5) (make-rat 4 -5))) ; -3/5
 ; Test as a result of computation
 (print-rat (sub-rat (make-rat 1 5) (make-rat 4 5)))  ; -3/5
-
- 
-
-

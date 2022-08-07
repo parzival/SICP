@@ -1,22 +1,8 @@
 ; Section 2.5.3 (extended exercise)
 
-; Required generic arithmetic package from previous exercises,
-; with polynomial division defined
-
-(load "library/gen-arith.scm")           ; Give location of your previously defined arithmetic file.
-(load "library/gen-arith-tests_v2.scm")  ; Note that only tower types are defined; scheme-number tests should not be run.
-(load "library/poly-tests.scm")          ; Polynomial tests
-
+(load "2-5-3_sol.scm") ; load previous exercises, with their polynomial system
 
 ;(run-tower-arith-tests) ; optional check to ensure all files are loaded correctly
-
-(define (header msg)
-  (newline)
-  (display msg)
-  (newline)
-  )
-
-(load "2-5-3_sol.scm") ; load previous exercises, with their polynomial system
 
 (header "========================== START OF EXTENDED EXERCISE ==========================")
 ;(require trace)  - can be useful for debugging/answering 2.95
@@ -40,6 +26,12 @@
 (define rf (make-rational p2 p1))
 (displayln "Adding p2/p1 + p2/p1")
 (add rf rf)
+
+; This likely yields errors or unexpected results
+;
+;(displayln "Demonstrating generic add of incompatible items")
+;(add rf (make-rational 3 5))
+;(add (make-rational 4 6) rf)
 
 ; Ex 2.94.
 ; GCD for rational polynomials
@@ -73,7 +65,7 @@
 (test-equ (lambda () (greatest-common-divisor p1 p2)) expected-result "Polynomials")
 (test-equ (lambda () (greatest-common-divisor (make-rational 200 5) (make-rational 64 4))) (make-integer 8) "Rationals")
 
-; Unspecified results
+; Unspecified results - may result in errors
 (display "Scheme integers: ")
 (greatest-common-divisor 90 54)  ; 18 (if scheme-numbers are allowed)
 (display "Non-integer rationals: ")

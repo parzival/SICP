@@ -1,16 +1,7 @@
 ; Tests for generic arithmetic packages
 ; These require equ?, =zero? to be defined
 
-;;;; START of Scheme-specific options
-;;;; Depending on which system you're using these will need changing.
-
-; Racket/PB
-(load-relative "test-functions.scm")
-
-; Other Scheme
-;(load (string-append lib-path "test-functions.scm"))
-
-;;;;  END of Scheme-specific options
+(load-from-lib "test-functions.scm")
 
 (define (logical-operator-tests)
   

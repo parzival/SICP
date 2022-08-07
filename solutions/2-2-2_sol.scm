@@ -1,12 +1,14 @@
 ; Section 2.2.2
 
-(define (header phrase) 
+(define (header phrase)
   (newline)
   (display phrase)
   (newline)
   )
 
+; Needed for Racket/PB
 (define nil null)
+
 
 ; Ex 2.24
 ; Give the interpreter result, box-and-pointer, and tree representations
@@ -114,7 +116,7 @@
 
 (define (fringe li)
     (cond
-      ((null? li) null)
+      ((null? li) nil)
       ((pair? li) (append (fringe (car li)) (fringe (cdr li))))
       (else (list li))
     )
@@ -299,7 +301,7 @@
 
 (define (square-list-1 items)
   (if (null? items)
-      null
+      nil
       (cons (sqr (car items)) (square-list-1 (cdr items)))
       )
   )
@@ -310,7 +312,7 @@
 
 (define (square-tree-1 tr)
   (cond
-    ((null? tr) null)
+    ((null? tr) nil)
     ((pair? tr) (cons (square-tree-1 (car tr)) (square-tree-1 (cdr tr))))
     (else (sqr tr))
     )

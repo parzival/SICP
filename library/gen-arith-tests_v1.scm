@@ -1,6 +1,7 @@
 ; Tests for generic arithmetic packages
 ; These require equ?, =zero? to be defined
-(load-relative "test-functions.rkt")  
+
+(load-from-lib "test-functions.scm")
 
 (define (logical-operator-tests)
   

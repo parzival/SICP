@@ -53,9 +53,15 @@
  
 ; This gives the result for applicative order, by using the Scheme interpreter :
  
-; It's okay to delete/ignore this section if (trace) is not supported.
+; Racket version (enable trace, then define function)
 (require trace)
- 
+
+
+; Defining this function in this file ensures it will be traced only by our gcd
+(define (rem-traced a b)
+  (remainder a b)
+  )
+
 (define (gcd a b) 
   (if (= b 0)
       a
@@ -63,10 +69,9 @@
       )
   )
 
-; Defining this function in this file ensures it will be traced.
-(define (rem-traced a b)
-  (remainder a b)
-  )
+; Other versions (e.g. MIT-Scheme) - define function first, then call trace procedure on it
+;(trace rem-traced)
+ 
 
 (gcd 206 40) 
 
