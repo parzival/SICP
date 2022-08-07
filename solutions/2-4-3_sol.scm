@@ -1,7 +1,7 @@
 ; Section 2.4.3
 
 ; Modify if not using Racket; note that complex number tests are Racket-only
-(load "../library/racket/data_tables.rkt")
+(load "../library/racket/data-tables.rkt")
 
 (define operation-table (make-table))
 (define get (operation-table 'lookup-proc))
