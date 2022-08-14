@@ -1,39 +1,7 @@
 ; Section 3.1.1
 
-; non-Racket Schemes will need some or all of these defined:
-
-; (define (displayln s)
-;   (display s)
-;   (newline)
-; )
-
-; (define (allnull? ln)
-;  (cond 
-;     ((null? ln) #t)
-;	 ((null? (car ln)) (allnull? (cdr ln)))
-;	 (else #f)
-;  )
-; )
-
-; (define (andmap p . ll )
-;   (cond 
-;     ((allnull? ll) 
-;       #t
-;     )
-;     ((apply p (map car ll)) ; true case
-;       (apply andmap (cons p (map cdr ll)))
-;     )
-;     (else #f)
-;   )
-; )
-
-; (define (sqr x) (expt x 2))
-
-; (define pi 3.141592653589793)
-
-; (format) also required for check-eqv?, or redefine it below to not use format
-
-; END of additional procedures for other implementations
+; Note that check-eqv requires 'format'. An easy alternative here is to replace the line
+; with a sequence of *display* procedures to output the values.
 
 ; Basic equality test (halts on errors)
 (define (check-eqv? observed expected . label-args)
@@ -234,7 +202,7 @@
   )
 
 (define (call-the-cops)
-  (monitored-ctc null)
+  (monitored-ctc '() )
   )
 
 ; Ensure account continues to function when password attempts are below threshold

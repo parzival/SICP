@@ -1,5 +1,8 @@
 ; Section 3.1.1
 
+; Note that check-eqv requires 'format'. An easy alternative here is to replace the line
+; with a sequence of *display* procedures to output the values.
+
 ; Basic equality test (halts on errors)
 (define (check-eqv? observed expected . label-args)
   (if (eqv? observed expected)
@@ -277,7 +280,7 @@
   )
 
 (define (call-the-cops)
-  (monitored-ctc null)
+  (monitored-ctc '() )
   )
 
 ; Ensure account continues to function when password attempts are below threshold

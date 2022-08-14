@@ -31,9 +31,6 @@
 
 ;      (define pi 3.141592653589793)
 
-; Ex 3.5.
-; Monte Carlo integration
-
 ; Modified version to work with (random) in Racket for integer values.
 (define (random-in-range low high)
   (let ((range (- high low)))
@@ -41,6 +38,11 @@
     (+ low (* range (random)))
     )
   )
+ 
+
+; Ex 3.5.
+; Monte Carlo integration
+
 
 (define (monte-carlo trials experiment)
   (define (iter trials-remaining trials-passed)
