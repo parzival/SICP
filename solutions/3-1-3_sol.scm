@@ -74,11 +74,11 @@
 
 (define f
   (let ((returned 0)
-        (last 0)
+        (last-in 0)
         )
         (lambda(x)
-          (set! returned (+ (- returned) last))
-          (set! last x)
+          (set! returned (+ (- returned) last-in))
+          (set! last-in x)
           returned
           )
     )

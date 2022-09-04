@@ -72,7 +72,7 @@
     (if showerror
         (begin
           (display "  % Error: ")
-          (display (* 100 (abs (/ (- actual-value result) actual-value))))  
+          (display (* 100 (abs (/ (- actual-value result) actual-value))))
           )
         )
     (newline)
@@ -83,10 +83,10 @@
 ; Use (set! showerror true) [or false] to enable [disable] display of percentage error
 (define showerror false)
 
-; Triangle is a region bounded by y < 6x.  Test rectangle corners are (0,0) and (1,6)
+; Triangle is a region bounded by y < 6x and the box. Test rectangle corners are (0,0) and (1,6)
 (define triangleP (lambda (x y) (< y (* 6.0 x))))
 
-; >>Complete with proper arguments to the estimator 
+; >>Complete with proper arguments to the estimator
 (define (triangle-estimate test-trials) 
   (estimate-integral <<arguments>> )
   )
