@@ -31,7 +31,10 @@
 ; format must be loaded as an option, and requires an additional 'destination'
 ; argument, which should be false for these calls since they go to strings. The 
 ; following will redefine it to work as it does in Racket.
-; Add these lines :
+; Execute these lines :
+; !! WARNING - these should only be run once, and not included in the file
+; !! unless the file is only loaded once. Redefining the format option again
+; !! will result in an infinite loop. 
 ; (load-option 'format)
 ; (define format-mit format)
 ; (unbind-variable (the-environment) 'format)
