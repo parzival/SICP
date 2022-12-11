@@ -7,13 +7,13 @@
 (load-relative "racket/exn-handler.rkt") 
 
 ; Racket's R5RS only
-;(load-from-lib "racket/exn-handler_r5rs.scm"))
+;(load-from-lib "racket/exn-handler_r5rs.scm")
 
 ; MIT Scheme only
-;(load-from-lib "mit-scheme/exn-handler.scm"))
+;(load-from-lib "mit-scheme/exn-handler.scm")
 
 ; R7RS Scheme (e.g. Chicken)
-;(load-from-lib "exn-handler.scm"))
+;(load-from-lib "exn-handler.scm")
 
 ; For non-Racket Schemes, may need to define these:
 ; andmap 
