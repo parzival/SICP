@@ -2,6 +2,10 @@
 
 ; During testing, catch raised exceptions/errors, but do allow for execution to break
 
+(define (exception-message exc)
+  (display (condition/report-string exc))
+  )
+
 ; Handler for possible exceptions
 (define (make-handler handler)
   (lambda (maybe-exc)
@@ -13,10 +17,6 @@
         maybe-exc
     )
   )
-  )
-
-(define (exception-message exc)
-  (display (condition/report-string exc))
   )
 
 (define-syntax with-handler
