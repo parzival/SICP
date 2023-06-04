@@ -209,12 +209,13 @@
 (newline)
 
 ; Alternating powers of a number x = 1/(1+x)
-(display-line "(-x)^n = 1/(1+x)")
+(display-line "(-x)^n = 1/(1+x):")
 (define 3powers-alternating (powers-of-x -3))
 (display "(-3)^n : ")
 (display-n-of-stream 10 3powers-alternating)
 (display "Inverse: ")
 (display-n-of-stream 10 (invert-unit-series 3powers-alternating))
+; Expected result stream is (1 3 0 0 ...) - try changing the base to another value
 
 (newline)
 (display-line "csc 2x = 1/2(sec x * csc x)")
@@ -242,6 +243,8 @@
 (accum-n-of-stream 100 (eval-at (/ pi 4) <? tangent series ?>)) ; Expected value of 1.0
 
 ; Demonstration of other series division
+
+; Multiplying (1 - x) by the integer stream gives a value of 1 for each term, so that is our expected result from division.
 (define ones-over-ints (div-series ones integers))
 (display "Ones divided by integers (series division):")
-(display-n-of-stream 10 ones-over-ints)
+(display-n-of-stream 10 ones-over-ints) ; Expected: (1 -1 0 0 0 ...) 
