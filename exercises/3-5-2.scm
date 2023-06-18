@@ -5,7 +5,7 @@
 (include "library/stream_352.scm")
 (display-line "done.")
 
-(define pi 3.14159265358979) ; define if necessary
+;(define pi 3.14159265358979) ; define if necessary
 
 ; Ex 3.53.
 ; Testing a stream
@@ -244,7 +244,7 @@
 
 ; Demonstration of other series division
 
-; Multiplying (1 - x) by the integer stream gives a value of 1 for each term, so that is our expected result from division.
+; Multiplying (1 - x) by the integer stream gives a value of 1 for each term, so that is our expected result from division of these power series.
 (define ones-over-ints (div-series ones integers))
 (display "Ones divided by integers (series division):")
 (display-n-of-stream 10 ones-over-ints) ; Expected: (1 -1 0 0 0 ...) 
