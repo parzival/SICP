@@ -31,7 +31,7 @@
 (define t1 (mul-streams integers integers))
 (define expected-1 (list-to-stream '(1 4 9 16 25 36 49 64 81 100)) )
 (display "n*n:")
-(stream-test = (limit-stream 10 t1) expected-1)
+(stream-test = (truncate-stream 10 t1) expected-1)
 
 ; Optional, allowing more than two arguments
 ; (define t2 (mul-streams integers integers s)) ; n^2*2^(n-1), testing multiple arguments
@@ -40,7 +40,7 @@
 
 (define expected-2 (list-to-stream '(1 8 36 128 400 1152 3136 8192 20736 51200)) )
 (display "n^2*2^(n-1):")
-(stream-test = (limit-stream 10 t2) expected-2) ; Testing multiple operands
+(stream-test = (truncate-stream 10 t2) expected-2) ; Testing multiple operands
 
 ; Define factorials using this function
 (define factorials (cons-stream 1 (mul-streams <??> <??> )))
@@ -48,7 +48,7 @@
 (display-line "Testing factorials")
 (define expected-f (list-to-stream '(1 2 6 24 120 720 5040 40320 362880 3628800 39916800)))
 (display "factorials:")
-(stream-test = (limit-stream 11 factorials) expected-f)
+(stream-test = (truncate-stream 11 factorials) expected-f)
 (newline)
 
 ; Ex 3.55.
@@ -63,9 +63,9 @@
 
 ; Do some checks
 (display "Sum of integers:")
-(stream-test = (limit-stream 10 (partial-sums integers)) (list-to-stream '(1 3 6 10 15 21 28 36 45 55)) )
+(stream-test = (truncate-stream 10 (partial-sums integers)) (list-to-stream '(1 3 6 10 15 21 28 36 45 55)) )
 (display "Sum of ones:")
-(stream-test = (limit-stream 300 (partial-sums ones)) (limit-stream 300 integers))
+(stream-test = (truncate-stream 300 (partial-sums ones)) (truncate-stream 300 integers))
 
 ; Ex 3.56.
 ; Creating a special sequence of Hamming's
@@ -78,7 +78,7 @@
 (newline)
 (display-line "Testing Hamming's sequence")
 ;(display-n-of-stream 20 S)
-(stream-test = (limit-stream 20 S) (list-to-stream '(1 2 3 4 5 6 8 9 10 12 15 16 18 20 24 25 27 30 32 36)) )
+(stream-test = (truncate-stream 20 S) (list-to-stream '(1 2 3 4 5 6 8 9 10 12 15 16 18 20 24 25 27 30 32 36)) )
 
 (display "Testing 999th term:")
 (equal? 51200000 (stream-ref S 999))
@@ -151,13 +151,16 @@
   )
 
 (define (accum-n-of-stream n s)
-  (let ((acc 0)
+  (define (iter-accum i str acc)
+    (if (<= i 0)
+        acc
+        (iter-accum (- i 1) (stream-cdr str) (+ (stream-car str) acc) )
         )
-    (for-each (lambda (x) (set! acc (+ acc x))) (get-n-of-stream n s))
-    acc
     )
+  (iter-accum n s 0)    
   )
 
+; Reduce the number of terms if memory errors occur.
 (display-line "Evaluating power series (100 terms):")
 (display "e^1: ")
 (accum-n-of-stream 100 (eval-at 1.0 exp-series))
@@ -238,7 +241,7 @@
 (display "Tangent series: ")
 (display-n-of-stream 10 <? tangent series ?>)
 
-
+; Reduce the number of terms if memory errors occur.
 (display "Tangent, evaluated at pi/4 (100 terms): ")
 (accum-n-of-stream 100 (eval-at (/ pi 4) <? tangent series ?>)) ; Expected value of 1.0
 
