@@ -515,9 +515,11 @@
 ; Check arithmetic that mixes non-complex values
 (test-equ (lambda () (mul int_3 rl_a)) (make-real 8) "Real results from integer * real" ) ; 3 * 2 2/3 
 (test-equ (lambda () (div rat_2-3 (make-rational 3 4))) (make-rational 8 9) "Rational results when dividing rationals") 
+
 ; complex values
-(test-equ (lambda () (add com_3-4 com_12e2)) (make-complex-from-real-imag (make-real -1.993762038566) (make-real 14.911569121908)) "complex using reals")
-(test-equ (lambda () (sub com_3-4 com_4-4)) (make-complex-from-real-imag (make-rational -1 1) (make-rational 0 1)) "complex using rationals and complex values")
+(test-true (lambda () (=zero? (make-complex-from-real-imag (make-integer 0) (make-rational 0 1) ))) )
+(test-equ (lambda () (make-complex-from-real-imag (make-real -1.993762038566) (make-real 14.911569121908))) (add com_3-4 com_12e2) "complex using reals")
+(test-equ (lambda () (make-complex-from-real-imag (make-rational -1 1) (make-rational 0 1))) (sub com_3-4 com_4-4)  "complex using rationals and complex values")
 
 ; Note the irrationality of the 'rational' value - this works in Racket due to its implementation of gcd, but not in all varieties of Scheme
 (test-equ (lambda () (mul com_4-4 (make-complex-from-mag-ang (make-rational 3 (sqrt 2)) 0))) (make-complex-from-mag-ang 12 0.7853981633974) "complex using irrational 'rational' fraction")
